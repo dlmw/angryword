@@ -3,15 +3,23 @@ package ch.ansermgw.angryword.models;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
-public class Bird extends MovingObject {
-    private static String TextureName = "bird.png";
+import ch.ansermgw.angryword.AngrywordMain;
 
-    public Bird(int srcX, int srcY) {
-        super(new Texture(Bird.TextureName), srcX, srcY, new Vector2(2, 2));
+public class Bird extends MovingObject {
+    private enum BirdState { init, aim, fly }
+
+    private static final String SPRITE_NAME = "bird.png";
+    private static final int WIDTH = 60;
+    private static final int HEIGHT = 60;
+
+    private BirdState state = BirdState.init;
+
+    public Bird(Vector2 position, Vector2 speed) {
+        super(position, WIDTH, HEIGHT, SPRITE_NAME, speed);
     }
 
     @Override
-    public void accelerate(Float dt) {
-
+    public void accelerate(float dt) {
+        speed.y += MovingObject.Gravity * dt;
     }
 }

@@ -4,16 +4,27 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class MovingObject extends PhysicalObject {
-    private Vector2 Speed;
+    protected final static float Gravity = -50;
 
-    public MovingObject(Texture texture, int srcX, int srcY, Vector2 speed) {
-        super(texture, srcX, srcY);
-        this.Speed = speed;
+    protected Vector2 speed;
+    private boolean frozen;
+
+    public MovingObject(Vector2 position, float width, float height, String spriteName, Vector2 speed) {
+        super(position, width, height, spriteName);
+        this.speed = speed;
     }
 
-    public void move(Float dt) {
-
+    public void move(float dt) {
+        translate(speed.x * dt, speed.y * dt);
     }
 
-    public abstract void accelerate(Float dt);
+    public abstract void accelerate(float dt);
+
+    protected void setFrozen(boolean frozen) {
+        this.frozen = frozen;
+    }
+
+    protected boolean isFrozen() {
+        return frozen;
+    }
 }
