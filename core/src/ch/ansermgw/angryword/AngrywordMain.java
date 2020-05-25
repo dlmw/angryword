@@ -18,13 +18,17 @@ import java.util.Random;
 import ch.ansermgw.angryword.models.Bird;
 import ch.ansermgw.angryword.models.Block;
 import ch.ansermgw.angryword.models.PhysicalObject;
+import ch.ansermgw.angryword.models.Pig;
+import ch.ansermgw.angryword.models.Tnt;
 import ch.ansermgw.angryword.models.Wasp;
 
 public class AngrywordMain extends Game {
 	public static Random rand;
 
-	private static final int WORLD_WIDTH = 1600;
-	private static final int WORLD_HEIGHT = 900;
+	public static final int WORLD_WIDTH = 1600;
+	public static final int WORLD_HEIGHT = 900;
+	public static final int FLOOR_HEIGHT = 150;
+
 	private static final String BACKGROUND_NAME = "background.jpg";
 
 	private Texture background;
@@ -33,8 +37,7 @@ public class AngrywordMain extends Game {
 
 	private Bird bird;
 	private Wasp wasp;
-
-	private List<PhysicalObject> decorList;
+	private Scenery scenery;
 
 	@Override
 	public void create () {
@@ -48,12 +51,18 @@ public class AngrywordMain extends Game {
 		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 		camera.update();
 
-		this.bird = new Bird(new Vector2(100, Math.abs(WORLD_HEIGHT/4)), new Vector2(50, 150));
-		this.wasp = new Wasp(new Vector2(100, 100));
+		this.scenery = new Scenery();
+		scenery.addFloor();
 
-		decorList = new ArrayList<>();
-		for(int i = 0; i < 10; i++) {
-			decorList.add(new Block(new Vector2(50 * i + Math.abs(WORLD_WIDTH / 2), 100)));
+		this.bird = new Bird(new Vector2(100, Math.abs(WORLD_HEIGHT/4)), new Vector2(50, 150));
+		this.wasp = new Wasp(new Vector2(Math.abs(WORLD_WIDTH/2), Math.abs(WORLD_HEIGHT/2)));
+
+		for (int i = 10; i < 13; i++) {
+			scenery.addElement(new Pig(new Vector2(i * 60, FLOOR_HEIGHT + 50)));
+		}
+
+		for (int i = 1; i < 5; i++) {
+			scenery.addElement(new Tnt(new Vector2(Math.abs(WORLD_WIDTH/4*3), FLOOR_HEIGHT + 50 * i)));
 		}
 	}
 
@@ -73,13 +82,10 @@ public class AngrywordMain extends Game {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
+
 		bird.draw(batch);
 		wasp.draw(batch);
-
-		for(int i = 0; i < decorList.size(); i++) {
-			decorList.get(i).draw(batch);
-		}
-
+		scenery.draw(batch);
 		batch.end();
 	}
 

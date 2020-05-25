@@ -9,8 +9,8 @@ public class Bird extends MovingObject {
     private enum BirdState { init, aim, fly }
 
     private static final String SPRITE_NAME = "bird.png";
-    private static final int WIDTH = 60;
-    private static final int HEIGHT = 60;
+    private static final int WIDTH = 50;
+    private static final int HEIGHT = 50;
 
     private BirdState state = BirdState.init;
 
