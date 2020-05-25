@@ -66,8 +66,25 @@ public class AngrywordMain extends Game {
 		}
 	}
 
+	private void handleBirdAiming() {
+		Bird.BirdState birdState = bird.getState();
+
+		if(birdState == Bird.BirdState.init && Gdx.input.justTouched()) {
+			bird.setState(Bird.BirdState.aim);
+		}
+
+		if(birdState == Bird.BirdState.aim && Gdx.input.isTouched()) {
+			bird.setPosition(bird.getX() + Gdx.input.getDeltaX(), bird.getY() - Gdx.input.getDeltaY());
+		}
+
+		if(birdState == Bird.BirdState.aim && !Gdx.input.isTouched()) {
+			bird.setState(Bird.BirdState.fly);
+		}
+	}
+
 	private void update() {
 		float dt = Gdx.graphics.getDeltaTime();
+		handleBirdAiming();
 
 		bird.accelerate(dt);
 		bird.move(dt);
