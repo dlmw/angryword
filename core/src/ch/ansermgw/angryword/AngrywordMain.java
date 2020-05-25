@@ -53,39 +53,17 @@ public class AngrywordMain extends Game {
 
 		this.scenery = new Scenery();
 		scenery.addFloor();
+		scenery.addPig();
+		scenery.addTnt();
 
 		this.bird = new Bird(new Vector2(100, Math.abs(WORLD_HEIGHT/4)), new Vector2(50, 150));
 		this.wasp = new Wasp(new Vector2(Math.abs(WORLD_WIDTH/2), Math.abs(WORLD_HEIGHT/2)));
-
-		for (int i = 10; i < 13; i++) {
-			scenery.addElement(new Pig(new Vector2(i * 60, FLOOR_HEIGHT + 50)));
-		}
-
-		for (int i = 1; i < 5; i++) {
-			scenery.addElement(new Tnt(new Vector2(Math.abs(WORLD_WIDTH/4*3), FLOOR_HEIGHT + 50 * i)));
-		}
-	}
-
-	private void handleBirdAiming() {
-		Bird.BirdState birdState = bird.getState();
-
-		if(birdState == Bird.BirdState.init && Gdx.input.justTouched()) {
-			bird.setState(Bird.BirdState.aim);
-		}
-
-		if(birdState == Bird.BirdState.aim && Gdx.input.isTouched()) {
-			bird.setPosition(bird.getX() + Gdx.input.getDeltaX(), bird.getY() - Gdx.input.getDeltaY());
-		}
-
-		if(birdState == Bird.BirdState.aim && !Gdx.input.isTouched()) {
-			bird.setState(Bird.BirdState.fly);
-		}
 	}
 
 	private void update() {
 		float dt = Gdx.graphics.getDeltaTime();
-		handleBirdAiming();
 
+		bird.handleInput();
 		bird.accelerate(dt);
 		bird.move(dt);
 
