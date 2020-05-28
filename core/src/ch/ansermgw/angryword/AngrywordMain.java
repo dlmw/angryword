@@ -28,16 +28,17 @@ public class AngrywordMain extends Game {
 	public static final int WORLD_WIDTH = 1600;
 	public static final int WORLD_HEIGHT = 900;
 	public static final int FLOOR_HEIGHT = 150;
+	public static final Vector2 BIRD_SPAWN = new Vector2(200, FLOOR_HEIGHT+200);
 
 	private static final String BACKGROUND_NAME = "background.jpg";
 
 	private Texture background;
-	private OrthographicCamera camera;
 	private SpriteBatch batch;
 
 	private Bird bird;
 	private Wasp wasp;
 	private Scenery scenery;
+	private OrthographicCamera camera;
 
 	@Override
 	public void create () {
@@ -56,14 +57,15 @@ public class AngrywordMain extends Game {
 		scenery.addPig();
 		scenery.addTnt();
 
-		this.bird = new Bird(new Vector2(100, Math.abs(WORLD_HEIGHT/4)), new Vector2(50, 150));
+		this.bird = new Bird(BIRD_SPAWN, new Vector2(50, 150), camera);
 		this.wasp = new Wasp(new Vector2(Math.abs(WORLD_WIDTH/2), Math.abs(WORLD_HEIGHT/2)));
+
+		Gdx.input.setInputProcessor(this.bird);
 	}
 
 	private void update() {
 		float dt = Gdx.graphics.getDeltaTime();
 
-		bird.handleInput();
 		bird.accelerate(dt);
 		bird.move(dt);
 

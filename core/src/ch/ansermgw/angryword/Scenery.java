@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import ch.ansermgw.angryword.models.Block;
 import ch.ansermgw.angryword.models.PhysicalObject;
 import ch.ansermgw.angryword.models.Pig;
+import ch.ansermgw.angryword.models.Slingshot;
 import ch.ansermgw.angryword.models.Tnt;
 
 public class Scenery {
@@ -27,6 +28,8 @@ public class Scenery {
         for (int i = 10; i < AngrywordMain.WORLD_WIDTH / BLOCK_SIZE; i++) {
             addElement(new Block(new Vector2(i * BLOCK_SIZE, AngrywordMain.FLOOR_HEIGHT)));
         }
+
+        addElement(new Slingshot(new Vector2( AngrywordMain.BIRD_SPAWN.x-25, AngrywordMain.BIRD_SPAWN.y-225)));
     }
 
     public void addPig() {

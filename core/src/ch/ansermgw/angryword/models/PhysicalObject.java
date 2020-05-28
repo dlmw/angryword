@@ -9,4 +9,10 @@ public class PhysicalObject extends Sprite {
         super(new Texture(spriteName));
         setBounds(position.x, position.y, width, height);
     }
+
+    public boolean isHittingHitbox(Vector2 position){
+        return (position.x >= this.getX() && position.x <= this.getX() + this.getWidth()) &&
+                (position.y >= this.getY() && position.y <= this.getY() + this.getHeight());
+    }
+
 }
