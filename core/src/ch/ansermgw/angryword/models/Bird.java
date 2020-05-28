@@ -23,20 +23,25 @@ public class Bird extends MovingObject implements InputProcessor {
     private BirdState state = BirdState.init;
     private OrthographicCamera camera;
 
-    public Bird(Vector2 position, Vector2 speed, OrthographicCamera camera) {
-        super(position, WIDTH, HEIGHT, SPRITE_NAME, speed);
+    public Bird(Vector2 position, OrthographicCamera camera) {
+        super(position, WIDTH, HEIGHT, SPRITE_NAME, new Vector2(0,0));
         this.camera = camera;
         this.initialPos = position;
     }
 
     @Override
     public void accelerate(float dt) {
-        speed.y += MovingObject.Gravity * dt;
+        speed.y += MovingObject.Gravity * dt * 2;
     }
 
     @Override
     public void move(float dt) {
         if(state == BirdState.fly) {
+            if (getY() < 0) {
+                this.reset();
+                return;
+            }
+
             super.move(dt);
         }
     }
@@ -54,7 +59,10 @@ public class Bird extends MovingObject implements InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if(state == BirdState.aim)
         {
+            Vector2 pos = getAbsolutePosition(screenX, screenY);
+
             state = BirdState.fly;
+            speed = new Vector2(initialPos.x - pos.x, initialPos.y - pos.y).scl(3);
         }
         return true;
     }
@@ -108,4 +116,9 @@ public class Bird extends MovingObject implements InputProcessor {
         );
     }
 
+    private void reset() {
+        state = BirdState.init;
+        setPosition(initialPos.x, initialPos.y);
+        speed = new Vector2(0, 0);
+    }
 }

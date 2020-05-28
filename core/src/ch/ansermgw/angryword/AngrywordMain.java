@@ -57,7 +57,7 @@ public class AngrywordMain extends Game {
 		scenery.addPig();
 		scenery.addTnt();
 
-		this.bird = new Bird(BIRD_SPAWN, new Vector2(50, 150), camera);
+		this.bird = new Bird(BIRD_SPAWN, camera);
 		this.wasp = new Wasp(new Vector2(Math.abs(WORLD_WIDTH/2), Math.abs(WORLD_HEIGHT/2)));
 
 		Gdx.input.setInputProcessor(this.bird);
