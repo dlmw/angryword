@@ -13,6 +13,7 @@ import ch.ansermgw.angryword.models.Tnt;
 
 public class Scenery {
     public static final int BLOCK_SIZE = 50;
+    private static final int FLOOR_START = 10*BLOCK_SIZE;
 
     private ArrayList<PhysicalObject> scene;
 
@@ -25,16 +26,31 @@ public class Scenery {
     }
 
     public void addFloor() {
-        for (int i = 10; i < AngrywordMain.WORLD_WIDTH / BLOCK_SIZE; i++) {
-            addElement(new Block(new Vector2(i * BLOCK_SIZE, AngrywordMain.FLOOR_HEIGHT)));
+        for (int i = 0; i < (AngrywordMain.WORLD_WIDTH - FLOOR_START) / BLOCK_SIZE; i++) {
+            addElement(new Block(new Vector2(FLOOR_START + i * BLOCK_SIZE, AngrywordMain.FLOOR_HEIGHT)));
         }
 
         addElement(new Slingshot(new Vector2( AngrywordMain.BIRD_SPAWN.x-25, AngrywordMain.BIRD_SPAWN.y-225)));
     }
 
     public void addPig() {
-        for (int i = 10; i < 13; i++) {
-            addElement(new Pig(new Vector2(i * 60, AngrywordMain.FLOOR_HEIGHT + 50)));
+        int pigCount = 0;
+
+        while (pigCount < 3){
+            Vector2 randomPos = new Vector2(
+                    FLOOR_START+AngrywordMain.rand.nextInt(AngrywordMain.WORLD_WIDTH-FLOOR_START),
+                    AngrywordMain.FLOOR_HEIGHT + 60
+            );
+
+            try {
+                checkColliding(randomPos);
+                addElement(new Pig(randomPos));
+                pigCount++;
+            } catch (Exception e) {
+                System.out.println("One pig collided");
+            }
+
+
         }
     }
 
@@ -46,5 +62,14 @@ public class Scenery {
 
     public void draw(Batch batch) {
         for (PhysicalObject p : scene) p.draw(batch);
+    }
+
+    private void checkColliding(Vector2 position) throws Exception {
+        for (PhysicalObject element : scene) {
+            // THIS IS SOME HORRIBLE CODE REQUIRED FOR DEMO :(
+            if (element.isHittingHitbox(position)) {
+                throw new Exception("Sorry");
+            }
+        }
     }
 }

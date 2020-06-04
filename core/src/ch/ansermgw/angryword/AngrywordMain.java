@@ -1,6 +1,5 @@
 package ch.ansermgw.angryword;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -8,18 +7,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
 import ch.ansermgw.angryword.models.Bird;
-import ch.ansermgw.angryword.models.Block;
-import ch.ansermgw.angryword.models.PhysicalObject;
-import ch.ansermgw.angryword.models.Pig;
-import ch.ansermgw.angryword.models.Tnt;
 import ch.ansermgw.angryword.models.Wasp;
 
 public class AngrywordMain extends Game {
