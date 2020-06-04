@@ -36,11 +36,8 @@ public class Scenery {
     public void addPig() {
         int pigCount = 0;
 
-        while (pigCount < 5){
-            Vector2 randomPos = new Vector2(
-                    FLOOR_START+AngrywordMain.rand.nextInt(AngrywordMain.WORLD_WIDTH-FLOOR_START),
-                    AngrywordMain.FLOOR_HEIGHT + 60
-            );
+        while (pigCount < 3){
+            Vector2 randomPos = generateRandomePositionForFloorItem();
 
             try {
                 checkColliding(randomPos, Pig.WIDTH, Pig.HEIGHT);
@@ -55,13 +52,34 @@ public class Scenery {
     }
 
     public void addTnt() {
-        for (int i = 1; i < 5; i++) {
-            addElement(new Tnt(new Vector2(Math.abs(AngrywordMain.WORLD_WIDTH/4*3), AngrywordMain.FLOOR_HEIGHT + 50 * i)));
+
+        while (true) {
+            Vector2 randomPos = generateRandomePositionForFloorItem();
+
+            try {
+                checkColliding(randomPos, Tnt.WIDTH, Tnt.HEIGHT * 4);
+
+                for (int i = 0; i < 4; i++) {
+                    addElement(new Tnt(new Vector2(randomPos.x, randomPos.y + Tnt.HEIGHT * i)));
+                }
+
+                break;
+            } catch (Exception e) {
+                System.out.println("One tnt collided");
+            }
+
         }
     }
 
     public void draw(Batch batch) {
         for (PhysicalObject p : scene) p.draw(batch);
+    }
+
+    private Vector2 generateRandomePositionForFloorItem() {
+        return new Vector2(
+                FLOOR_START+AngrywordMain.rand.nextInt(AngrywordMain.WORLD_WIDTH-FLOOR_START),
+                AngrywordMain.FLOOR_HEIGHT + 60
+        );
     }
 
     private void checkColliding(Vector2 position, int width, int height) throws Exception {
