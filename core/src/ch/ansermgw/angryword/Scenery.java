@@ -36,14 +36,14 @@ public class Scenery {
     public void addPig() {
         int pigCount = 0;
 
-        while (pigCount < 3){
+        while (pigCount < 5){
             Vector2 randomPos = new Vector2(
                     FLOOR_START+AngrywordMain.rand.nextInt(AngrywordMain.WORLD_WIDTH-FLOOR_START),
                     AngrywordMain.FLOOR_HEIGHT + 60
             );
 
             try {
-                checkColliding(randomPos);
+                checkColliding(randomPos, Pig.WIDTH, Pig.HEIGHT);
                 addElement(new Pig(randomPos));
                 pigCount++;
             } catch (Exception e) {
@@ -64,10 +64,10 @@ public class Scenery {
         for (PhysicalObject p : scene) p.draw(batch);
     }
 
-    private void checkColliding(Vector2 position) throws Exception {
+    private void checkColliding(Vector2 position, int width, int height) throws Exception {
         for (PhysicalObject element : scene) {
             // THIS IS SOME HORRIBLE CODE REQUIRED FOR DEMO :(
-            if (element.isHittingHitbox(position)) {
+            if (element.isHittingHitbox(position) || element.isHittingHitbox(new Vector2(position.x + width, position.y + height))) {
                 throw new Exception("Sorry");
             }
         }
