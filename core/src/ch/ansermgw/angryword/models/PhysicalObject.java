@@ -2,6 +2,7 @@ package ch.ansermgw.angryword.models;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class PhysicalObject extends Sprite {
@@ -10,9 +11,12 @@ public class PhysicalObject extends Sprite {
         setBounds(position.x, position.y, width, height);
     }
 
-    public boolean isHittingHitbox(Vector2 position){
-        return (position.x >= this.getX() && position.x <= this.getX() + this.getWidth()) &&
-                (position.y >= this.getY() && position.y <= this.getY() + this.getHeight());
+    public boolean isCollidingTo(PhysicalObject otherObject){
+        return isCollidingTo(otherObject.getBoundingRectangle());
+    }
+
+    public boolean isCollidingTo(Rectangle otherHibox){
+        return this.getBoundingRectangle().overlaps(otherHibox);
     }
 
 }

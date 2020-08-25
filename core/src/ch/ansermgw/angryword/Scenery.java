@@ -1,6 +1,7 @@
 package ch.ansermgw.angryword;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -37,11 +38,11 @@ public class Scenery {
         int pigCount = 0;
 
         while (pigCount < 3){
-            Vector2 randomPos = generateRandomePositionForFloorItem();
+            Pig pig = new Pig(generateRandomePositionForFloorItem());
 
             try {
-                checkColliding(randomPos, Pig.WIDTH, Pig.HEIGHT);
-                addElement(new Pig(randomPos));
+                checkCollidingWithExistingScene(pig);
+                addElement(pig);
                 pigCount++;
             } catch (Exception e) {
                 System.out.println("One pig collided");
@@ -57,7 +58,8 @@ public class Scenery {
             Vector2 randomPos = generateRandomePositionForFloorItem();
 
             try {
-                checkColliding(randomPos, Tnt.WIDTH, Tnt.HEIGHT * 4);
+                Tnt tnt = new Tnt(generateRandomePositionForFloorItem());
+                checkCollidingWithExistingScene(tnt);
 
                 for (int i = 0; i < 4; i++) {
                     addElement(new Tnt(new Vector2(randomPos.x, randomPos.y + Tnt.HEIGHT * i)));
@@ -82,11 +84,10 @@ public class Scenery {
         );
     }
 
-    private void checkColliding(Vector2 position, int width, int height) throws Exception {
+    private void checkCollidingWithExistingScene(PhysicalObject object) throws Exception {
         for (PhysicalObject element : scene) {
-            // THIS IS SOME HORRIBLE CODE REQUIRED FOR DEMO :(
-            if (element.isHittingHitbox(position) || element.isHittingHitbox(new Vector2(position.x + width, position.y + height))) {
-                throw new Exception("Sorry");
+            if(element.isCollidingTo(object)) {
+                throw new Exception("New object would collide");
             }
         }
     }

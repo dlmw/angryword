@@ -2,6 +2,7 @@ package ch.ansermgw.angryword.models;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -43,7 +44,7 @@ public class Bird extends MovingObject implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (state == BirdState.init && isHittingHitbox(getAbsolutePosition(screenX, screenY))) {
+        if (state == BirdState.init && getBoundingRectangle().contains(getAbsolutePosition(screenX, screenY))) {
             state = BirdState.aim;
         }
 
