@@ -26,7 +26,7 @@ public class Bird extends MovingObject implements InputProcessor {
 
     @Override
     public void accelerate(float dt) {
-        speed.y += MovingObject.Gravity * dt * 2;
+        speed.y += Gravity * dt;
     }
 
     @Override

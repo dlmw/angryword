@@ -18,7 +18,7 @@ public class Scenery {
     private ArrayList<PhysicalObject> scene;
 
     public Scenery() {
-        scene = new ArrayList<PhysicalObject>();
+        scene = new ArrayList<>();
     }
 
     public void addElement(PhysicalObject el) {
