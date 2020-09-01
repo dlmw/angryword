@@ -41,13 +41,13 @@ public class AngrywordMain extends Game implements InputProcessor {
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
 
-        this.scenery = new Scenery();
+        scenery = new Scenery();
         scenery.addFloor();
         scenery.addPig();
         scenery.addTnt();
 
-        this.bird = new Bird(BIRD_SPAWN);
-        this.wasp = new Wasp(new Vector2(Math.abs(WORLD_WIDTH / 2), Math.abs(WORLD_HEIGHT / 2)));
+        bird = new Bird(BIRD_SPAWN);
+        wasp = new Wasp(new Vector2(Math.abs(WORLD_WIDTH / 2), Math.abs(WORLD_HEIGHT / 2)));
 
         Gdx.input.setInputProcessor(this);
     }
@@ -82,8 +82,8 @@ public class AngrywordMain extends Game implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (this.bird.getState() == Bird.BirdState.init && this.bird.getBoundingRectangle().contains(getAbsolutePosition(screenX, screenY))) {
-            this.bird.aim();
+        if (bird.getState() == Bird.BirdState.init && bird.getBoundingRectangle().contains(getAbsolutePosition(screenX, screenY))) {
+            bird.aim();
         }
 
         return true;
@@ -91,18 +91,18 @@ public class AngrywordMain extends Game implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (this.bird.getState() == Bird.BirdState.aim) {
-            this.bird.release(getAbsolutePosition(screenX, screenY));
+        if (bird.getState() == Bird.BirdState.aim) {
+            bird.release(getAbsolutePosition(screenX, screenY));
         }
         return true;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        if (this.bird.getState() == Bird.BirdState.aim) {
+        if (bird.getState() == Bird.BirdState.aim) {
             Vector2 pos = limitPositionToShootingZone(getAbsolutePosition(screenX, screenY));
 
-            this.bird.setPosition(pos.x, pos.y);
+            bird.setPosition(pos.x, pos.y);
         }
 
         return true;

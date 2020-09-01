@@ -26,6 +26,6 @@ public abstract class MovingObject extends PhysicalObject {
     }
 
     protected void setFrozen(boolean frozen) {
-        this.frozen = frozen;
+        frozen = frozen;
     }
 }

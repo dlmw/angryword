@@ -16,7 +16,7 @@ public class PhysicalObject extends Sprite {
     }
 
     public boolean isCollidingTo(Rectangle otherHibox) {
-        return this.getBoundingRectangle().overlaps(otherHibox);
+        return getBoundingRectangle().overlaps(otherHibox);
     }
 
 }

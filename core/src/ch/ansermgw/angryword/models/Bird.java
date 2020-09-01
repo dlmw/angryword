@@ -11,7 +11,7 @@ public class Bird extends MovingObject {
 
     public Bird(Vector2 position) {
         super(position, WIDTH, HEIGHT, SPRITE_NAME, new Vector2(0, 0));
-        this.initialPos = position;
+        initialPos = position;
     }
 
     @Override
@@ -23,7 +23,7 @@ public class Bird extends MovingObject {
     public void move(float dt) {
         if (state == BirdState.fly) {
             if (getY() < 0) {
-                this.reset();
+                reset();
                 return;
             }
 
@@ -42,12 +42,12 @@ public class Bird extends MovingObject {
     }
 
     public void aim() {
-        this.state = BirdState.aim;
+        state = BirdState.aim;
     }
 
     public void release(Vector2 position) {
-        this.state = Bird.BirdState.fly;
-        this.speed = new Vector2(initialPos.x - position.x, initialPos.y - position.y).scl(3);
+        state = Bird.BirdState.fly;
+        speed = new Vector2(initialPos.x - position.x, initialPos.y - position.y).scl(3);
     }
 
     public enum BirdState {init, aim, fly}
