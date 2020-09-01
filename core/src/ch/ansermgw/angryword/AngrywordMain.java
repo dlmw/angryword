@@ -12,6 +12,8 @@ import com.badlogic.gdx.math.Vector3;
 import java.util.Random;
 
 import ch.ansermgw.angryword.models.Bird;
+import ch.ansermgw.angryword.models.PhysicalObject;
+import ch.ansermgw.angryword.models.Slingshot;
 import ch.ansermgw.angryword.models.Wasp;
 
 public class AngrywordMain extends Game implements InputProcessor {
@@ -57,6 +59,7 @@ public class AngrywordMain extends Game implements InputProcessor {
 
         bird.accelerate(dt);
         bird.move(dt);
+        handleBirdCollision();
 
         wasp.accelerate(dt);
         wasp.move(dt);
@@ -78,6 +81,24 @@ public class AngrywordMain extends Game implements InputProcessor {
     @Override
     public void dispose() {
         batch.dispose();
+    }
+
+    private void handleBirdCollision() {
+        if (bird.getState() == Bird.BirdState.dead) {
+            return;
+        }
+
+        if(bird.isCollidingTo(wasp)) {
+            bird.kill();
+            return;
+        }
+
+        for (PhysicalObject element : scenery.getElements()) {
+            if (!(element instanceof Slingshot) && bird.isCollidingTo(element)) {
+                bird.kill();
+                break;
+            }
+        }
     }
 
     @Override

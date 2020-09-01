@@ -21,7 +21,7 @@ public class Bird extends MovingObject {
 
     @Override
     public void move(float dt) {
-        if (state == BirdState.fly) {
+        if (state == BirdState.fly || state == BirdState.dead) {
             if (getY() < 0) {
                 reset();
                 return;
@@ -46,9 +46,14 @@ public class Bird extends MovingObject {
     }
 
     public void release(Vector2 position) {
-        state = Bird.BirdState.fly;
+        state = BirdState.fly;
         speed = new Vector2(initialPos.x - position.x, initialPos.y - position.y).scl(3);
     }
 
-    public enum BirdState {init, aim, fly}
+    public void kill() {
+        state = BirdState.dead;
+        speed = new Vector2(-speed.x, speed.y);
+    }
+
+    public enum BirdState {init, aim, fly, dead}
 }

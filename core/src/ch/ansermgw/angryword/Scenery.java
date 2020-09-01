@@ -15,14 +15,14 @@ public class Scenery {
     public static final int BLOCK_SIZE = 50;
     private static final int FLOOR_START = 10 * BLOCK_SIZE;
 
-    private ArrayList<PhysicalObject> scene;
+    private ArrayList<PhysicalObject> elements;
 
     public Scenery() {
-        scene = new ArrayList<>();
+        elements = new ArrayList<>();
     }
 
     public void addElement(PhysicalObject el) {
-        scene.add(el);
+        elements.add(el);
     }
 
     public void addFloor() {
@@ -31,6 +31,10 @@ public class Scenery {
         }
 
         addElement(new Slingshot(new Vector2(AngrywordMain.BIRD_SPAWN.x - 25, AngrywordMain.BIRD_SPAWN.y - 225)));
+    }
+
+    public ArrayList<PhysicalObject> getElements() {
+        return elements;
     }
 
     public void addPig() {
@@ -73,8 +77,9 @@ public class Scenery {
     }
 
     public void draw(Batch batch) {
-        for (PhysicalObject p : scene) p.draw(batch);
+        for (PhysicalObject p : elements) p.draw(batch);
     }
+
 
     private Vector2 generateRandomePositionForFloorItem() {
         return new Vector2(
@@ -84,7 +89,7 @@ public class Scenery {
     }
 
     private void checkCollidingWithExistingScene(PhysicalObject object) throws Exception {
-        for (PhysicalObject element : scene) {
+        for (PhysicalObject element : elements) {
             if (element.isCollidingTo(object)) {
                 throw new Exception("New object would collide");
             }
