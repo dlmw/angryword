@@ -84,7 +84,7 @@ public class AngrywordMain extends Game implements InputProcessor {
     }
 
     private void handleBirdCollision() {
-        if (bird.getState() == Bird.BirdState.dead) {
+        if (bird.getState() != Bird.BirdState.fly) {
             return;
         }
 
