@@ -1,7 +1,6 @@
 package ch.ansermgw.angryword;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import ch.ansermgw.angryword.models.Tnt;
 
 public class Scenery {
     public static final int BLOCK_SIZE = 50;
-    private static final int FLOOR_START = 10*BLOCK_SIZE;
+    private static final int FLOOR_START = 10 * BLOCK_SIZE;
 
     private ArrayList<PhysicalObject> scene;
 
@@ -31,13 +30,13 @@ public class Scenery {
             addElement(new Block(new Vector2(FLOOR_START + i * BLOCK_SIZE, AngrywordMain.FLOOR_HEIGHT)));
         }
 
-        addElement(new Slingshot(new Vector2( AngrywordMain.BIRD_SPAWN.x-25, AngrywordMain.BIRD_SPAWN.y-225)));
+        addElement(new Slingshot(new Vector2(AngrywordMain.BIRD_SPAWN.x - 25, AngrywordMain.BIRD_SPAWN.y - 225)));
     }
 
     public void addPig() {
         int pigCount = 0;
 
-        while (pigCount < 3){
+        while (pigCount < 3) {
             Pig pig = new Pig(generateRandomePositionForFloorItem());
 
             try {
@@ -79,14 +78,14 @@ public class Scenery {
 
     private Vector2 generateRandomePositionForFloorItem() {
         return new Vector2(
-                FLOOR_START+AngrywordMain.rand.nextInt(AngrywordMain.WORLD_WIDTH-FLOOR_START),
+                FLOOR_START + AngrywordMain.rand.nextInt(AngrywordMain.WORLD_WIDTH - FLOOR_START),
                 AngrywordMain.FLOOR_HEIGHT + 60
         );
     }
 
     private void checkCollidingWithExistingScene(PhysicalObject object) throws Exception {
         for (PhysicalObject element : scene) {
-            if(element.isCollidingTo(object)) {
+            if (element.isCollidingTo(object)) {
                 throw new Exception("New object would collide");
             }
         }

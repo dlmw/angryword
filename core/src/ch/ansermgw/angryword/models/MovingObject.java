@@ -21,11 +21,11 @@ public abstract class MovingObject extends PhysicalObject {
 
     public abstract void accelerate(float dt);
 
-    protected void setFrozen(boolean frozen) {
-        this.frozen = frozen;
-    }
-
     protected boolean isFrozen() {
         return frozen;
+    }
+
+    protected void setFrozen(boolean frozen) {
+        this.frozen = frozen;
     }
 }

@@ -2,82 +2,147 @@ package ch.ansermgw.angryword;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import java.util.Random;
 
 import ch.ansermgw.angryword.models.Bird;
 import ch.ansermgw.angryword.models.Wasp;
 
-public class AngrywordMain extends Game {
-	public static Random rand;
+public class AngrywordMain extends Game implements InputProcessor {
+    public static final int WORLD_WIDTH = 1600;
+    public static final int WORLD_HEIGHT = 900;
+    public static final int FLOOR_HEIGHT = 150;
+    public static final Vector2 BIRD_SPAWN = new Vector2(200, FLOOR_HEIGHT + 200);
+    private static final String BACKGROUND_NAME = "background.jpg";
+    public static Random rand;
+    private Texture background;
+    private SpriteBatch batch;
 
-	public static final int WORLD_WIDTH = 1600;
-	public static final int WORLD_HEIGHT = 900;
-	public static final int FLOOR_HEIGHT = 150;
-	public static final Vector2 BIRD_SPAWN = new Vector2(200, FLOOR_HEIGHT+200);
+    private Bird bird;
+    private Wasp wasp;
+    private Scenery scenery;
+    private OrthographicCamera camera;
 
-	private static final String BACKGROUND_NAME = "background.jpg";
+    @Override
+    public void create() {
+        batch = new SpriteBatch();
 
-	private Texture background;
-	private SpriteBatch batch;
+        rand = new Random(System.currentTimeMillis());
+        background = new Texture(BACKGROUND_NAME);
 
-	private Bird bird;
-	private Wasp wasp;
-	private Scenery scenery;
-	private OrthographicCamera camera;
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, WORLD_WIDTH, WORLD_HEIGHT);
+        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+        camera.update();
 
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
+        this.scenery = new Scenery();
+        scenery.addFloor();
+        scenery.addPig();
+        scenery.addTnt();
 
-		rand = new Random(System.currentTimeMillis());
-		background = new Texture(BACKGROUND_NAME);
+        this.bird = new Bird(BIRD_SPAWN);
+        this.wasp = new Wasp(new Vector2(Math.abs(WORLD_WIDTH / 2), Math.abs(WORLD_HEIGHT / 2)));
 
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, WORLD_WIDTH, WORLD_HEIGHT);
-		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-		camera.update();
+        Gdx.input.setInputProcessor(this);
+    }
 
-		this.scenery = new Scenery();
-		scenery.addFloor();
-		scenery.addPig();
-		scenery.addTnt();
+    private void update() {
+        float dt = Gdx.graphics.getDeltaTime();
 
-		this.bird = new Bird(BIRD_SPAWN, camera);
-		this.wasp = new Wasp(new Vector2(Math.abs(WORLD_WIDTH/2), Math.abs(WORLD_HEIGHT/2)));
+        bird.accelerate(dt);
+        bird.move(dt);
 
-		Gdx.input.setInputProcessor(this.bird);
-	}
+        wasp.accelerate(dt);
+        wasp.move(dt);
+    }
 
-	private void update() {
-		float dt = Gdx.graphics.getDeltaTime();
+    @Override
+    public void render() {
+        update();
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
 
-		bird.accelerate(dt);
-		bird.move(dt);
+        bird.draw(batch);
+        wasp.draw(batch);
+        scenery.draw(batch);
+        batch.end();
+    }
 
-		wasp.accelerate(dt);
-		wasp.move(dt);
-	}
+    @Override
+    public void dispose() {
+        batch.dispose();
+    }
 
-	@Override
-	public void render () {
-		update();
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-		batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (this.bird.getState() == Bird.BirdState.init && this.bird.getBoundingRectangle().contains(getAbsolutePosition(screenX, screenY))) {
+            this.bird.aim();
+        }
 
-		bird.draw(batch);
-		wasp.draw(batch);
-		scenery.draw(batch);
-		batch.end();
-	}
+        return true;
+    }
 
-	@Override
-	public void dispose () {
-		batch.dispose();
-	}
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        if (this.bird.getState() == Bird.BirdState.aim) {
+            this.bird.release(getAbsolutePosition(screenX, screenY));
+        }
+        return true;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        if (this.bird.getState() == Bird.BirdState.aim) {
+            Vector2 pos = limitPositionToShootingZone(getAbsolutePosition(screenX, screenY));
+
+            this.bird.setPosition(pos.x, pos.y);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+
+    private Vector2 getAbsolutePosition(int x, int y) {
+        Vector3 pos = camera.unproject(new Vector3(x, y, 0));
+        return new Vector2(pos.x, pos.y);
+    }
+
+    private Vector2 limitPositionToShootingZone(Vector2 position) {
+        return new Vector2(
+                Math.min(Math.max(0, position.x), BIRD_SPAWN.x),
+                Math.min(Math.max(FLOOR_HEIGHT, position.y), BIRD_SPAWN.y)
+        );
+    }
+
 }

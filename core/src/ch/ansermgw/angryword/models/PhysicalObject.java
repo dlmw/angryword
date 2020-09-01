@@ -11,11 +11,11 @@ public class PhysicalObject extends Sprite {
         setBounds(position.x, position.y, width, height);
     }
 
-    public boolean isCollidingTo(PhysicalObject otherObject){
+    public boolean isCollidingTo(PhysicalObject otherObject) {
         return isCollidingTo(otherObject.getBoundingRectangle());
     }
 
-    public boolean isCollidingTo(Rectangle otherHibox){
+    public boolean isCollidingTo(Rectangle otherHibox) {
         return this.getBoundingRectangle().overlaps(otherHibox);
     }
 
