@@ -10,14 +10,18 @@ import ch.ansermgw.angryword.models.PhysicalObject;
 import ch.ansermgw.angryword.models.Pig;
 import ch.ansermgw.angryword.models.Slingshot;
 import ch.ansermgw.angryword.models.Tnt;
+import ch.ansermgw.angryword.resource.VocabularyResource;
+import ch.ansermgw.angryword.resource.WordResource;
 
 public class Scenery {
     public static final int BLOCK_SIZE = 50;
     private static final int FLOOR_START = 10 * BLOCK_SIZE;
 
     private ArrayList<PhysicalObject> elements;
+    private VocabularyResource vocabulary;
 
-    public Scenery() {
+    public Scenery(VocabularyResource vocabulary) {
+        this.vocabulary = vocabulary;
         elements = new ArrayList<>();
     }
 
@@ -41,10 +45,12 @@ public class Scenery {
         int pigCount = 0;
 
         while (pigCount < 3) {
-            Pig pig = new Pig(generateRandomePositionForFloorItem());
+            WordResource wordResource = vocabulary.getRandomUnusedWordResource();
+            Pig pig = new Pig(generateRandomePositionForFloorItem(), wordResource);
 
             try {
                 checkCollidingWithExistingScene(pig);
+                wordResource.setUsed(true);
                 addElement(pig);
                 pigCount++;
             } catch (Exception e) {

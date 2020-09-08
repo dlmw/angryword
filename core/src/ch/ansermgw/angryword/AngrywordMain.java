@@ -9,12 +9,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import java.util.List;
 import java.util.Random;
 
 import ch.ansermgw.angryword.models.Bird;
 import ch.ansermgw.angryword.models.PhysicalObject;
+import ch.ansermgw.angryword.models.Pig;
 import ch.ansermgw.angryword.models.Slingshot;
 import ch.ansermgw.angryword.models.Wasp;
+import ch.ansermgw.angryword.provider.VocabularyProvider;
+import ch.ansermgw.angryword.resource.VocabularyResource;
 
 public class AngrywordMain extends Game implements InputProcessor {
     public static final int WORLD_WIDTH = 1600;
@@ -30,6 +34,7 @@ public class AngrywordMain extends Game implements InputProcessor {
     private Wasp wasp;
     private Scenery scenery;
     private OrthographicCamera camera;
+    private VocabularyResource vocabulary;
 
     @Override
     public void create() {
@@ -43,7 +48,9 @@ public class AngrywordMain extends Game implements InputProcessor {
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
 
-        scenery = new Scenery();
+        vocabulary = VocabularyProvider.getInstance().getRandomVocabulary();
+
+        scenery = new Scenery(vocabulary);
         scenery.addFloor();
         scenery.addPig();
         scenery.addTnt();
@@ -103,8 +110,14 @@ public class AngrywordMain extends Game implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (bird.getState() == Bird.BirdState.init && bird.getBoundingRectangle().contains(getAbsolutePosition(screenX, screenY))) {
+        if (bird.getState() == Bird.BirdState.init && isPhysicalObjectContainingVector(bird, getAbsolutePosition(screenX, screenY))) {
             bird.aim();
+        }
+
+        for (PhysicalObject physicalObject: scenery.getElements()) {
+            if(physicalObject instanceof Pig && isPhysicalObjectContainingVector(physicalObject, getAbsolutePosition(screenX, screenY))) {
+               ((Pig) physicalObject).touch();
+            }
         }
 
         return true;
@@ -152,6 +165,10 @@ public class AngrywordMain extends Game implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    private boolean isPhysicalObjectContainingVector(PhysicalObject physicalObject, Vector2 vector) {
+        return physicalObject.getBoundingRectangle().contains(vector);
     }
 
     private Vector2 getAbsolutePosition(int x, int y) {
