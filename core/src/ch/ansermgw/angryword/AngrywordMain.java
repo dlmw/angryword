@@ -103,8 +103,16 @@ public class AngrywordMain extends Game implements InputProcessor {
         for (PhysicalObject element : scenery.getElements()) {
             if (!(element instanceof Slingshot) && bird.isCollidingTo(element)) {
                 bird.kill();
+
+                if(element instanceof Pig) {
+                    scenery.removeElement(element);
+                    bird.reset();
+                }
+
                 break;
             }
+
+
         }
     }
 

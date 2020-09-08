@@ -31,7 +31,7 @@ public class Bird extends MovingObject {
         }
     }
 
-    private void reset() {
+    public void reset() {
         state = BirdState.init;
         setPosition(initialPos.x, initialPos.y);
         speed = new Vector2(0, 0);

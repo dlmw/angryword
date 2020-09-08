@@ -29,6 +29,10 @@ public class Scenery {
         elements.add(el);
     }
 
+    public void removeElement(PhysicalObject el) {
+        elements.remove(el);
+    }
+
     public void addFloor() {
         for (int i = 0; i < (AngrywordMain.WORLD_WIDTH - FLOOR_START) / BLOCK_SIZE; i++) {
             addElement(new Block(new Vector2(FLOOR_START + i * BLOCK_SIZE, AngrywordMain.FLOOR_HEIGHT)));
