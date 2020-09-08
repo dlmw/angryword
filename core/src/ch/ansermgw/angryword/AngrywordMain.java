@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 import ch.ansermgw.angryword.models.Bird;
+import ch.ansermgw.angryword.models.Bubble;
 import ch.ansermgw.angryword.models.PhysicalObject;
 import ch.ansermgw.angryword.models.Pig;
 import ch.ansermgw.angryword.models.Slingshot;
@@ -35,6 +36,7 @@ public class AngrywordMain extends Game implements InputProcessor {
     private Scenery scenery;
     private OrthographicCamera camera;
     private VocabularyResource vocabulary;
+    private Bubble bubble;
 
     @Override
     public void create() {
@@ -82,6 +84,10 @@ public class AngrywordMain extends Game implements InputProcessor {
         bird.draw(batch);
         wasp.draw(batch);
         scenery.draw(batch);
+
+        if (bubble != null)
+            bubble.draw(batch);
+
         batch.end();
     }
 
@@ -118,13 +124,21 @@ public class AngrywordMain extends Game implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        bubble = null;
+
         if (bird.getState() == Bird.BirdState.init && isPhysicalObjectContainingVector(bird, getAbsolutePosition(screenX, screenY))) {
             bird.aim();
         }
 
         for (PhysicalObject physicalObject: scenery.getElements()) {
             if(physicalObject instanceof Pig && isPhysicalObjectContainingVector(physicalObject, getAbsolutePosition(screenX, screenY))) {
-               ((Pig) physicalObject).touch();
+                bubble = new Bubble(
+                        new Vector2(
+                                physicalObject.getX() - physicalObject.getWidth(),
+                                physicalObject.getY() + physicalObject.getHeight()
+                        ),
+                        ((Pig) physicalObject).getWord()
+                );
             }
         }
 

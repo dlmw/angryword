@@ -1,6 +1,5 @@
 package ch.ansermgw.angryword.models;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 import ch.ansermgw.angryword.resource.WordResource;
@@ -15,7 +14,7 @@ public class Pig extends TextualObject {
         super(position, WIDTH, HEIGHT, SPRITE_NAME, word);
     }
 
-    public void touch() {
-        Gdx.app.log("Pig", getWord().getWord());
+    public WordResource getWord() {
+        return super.getWord();
     }
 }
