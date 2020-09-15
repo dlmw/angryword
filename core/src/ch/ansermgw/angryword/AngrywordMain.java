@@ -20,6 +20,7 @@ import ch.ansermgw.angryword.models.Slingshot;
 import ch.ansermgw.angryword.models.Wasp;
 import ch.ansermgw.angryword.provider.VocabularyProvider;
 import ch.ansermgw.angryword.resource.VocabularyResource;
+import ch.ansermgw.angryword.resource.WordResource;
 
 public class AngrywordMain extends Game implements InputProcessor {
     public static final int WORLD_WIDTH = 1600;
@@ -116,6 +117,21 @@ public class AngrywordMain extends Game implements InputProcessor {
 
                 if (element instanceof Pig) {
                     scenery.removeElement(element);
+                    Pig pig = ((Pig)element);
+                    pig.kill();
+
+                    if(panel.getWordResource().equals(pig.getWord())) {
+                        WordResource wordResource = vocabulary.getRandomUsedWordResource();
+
+                        if(wordResource != null) {
+                            this.panel.setWordResource(vocabulary.getRandomUsedWordResource());
+                        } else {
+                            //TODO game over
+                        }
+                    } else {
+                        //todo change reduce score
+                    }
+
                     bird.reset();
                 }
 

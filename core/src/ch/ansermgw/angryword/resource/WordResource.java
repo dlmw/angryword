@@ -1,5 +1,7 @@
 package ch.ansermgw.angryword.resource;
 
+import java.util.Objects;
+
 public class WordResource {
     private String word;
     private String translation;
@@ -33,5 +35,13 @@ public class WordResource {
 
     public void setUsed(boolean used) {
         isUsed = used;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WordResource that = (WordResource) o;
+        return isUsed == that.isUsed && word == that.word && translation == that.translation;
     }
 }

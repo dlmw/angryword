@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 
 public class TextualObject extends PhysicalObject {
-    private BitmapFont font;
-    private GlyphLayout glyphLayout;
+    protected BitmapFont font;
+    protected GlyphLayout glyphLayout;
     private Vector2 fontOffset;
 
     public TextualObject(Vector2 position, float width, float height, String spriteName, String text, Vector2 fontOffset) {

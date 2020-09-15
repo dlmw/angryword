@@ -16,6 +16,10 @@ public class Pig extends PhysicalObject {
         wordResource = word;
     }
 
+    public void kill() {
+        this.wordResource.setUsed(false);
+    }
+
     public WordResource getWord() {
         return wordResource;
     }
