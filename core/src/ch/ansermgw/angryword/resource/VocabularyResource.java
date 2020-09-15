@@ -32,6 +32,22 @@ public class VocabularyResource {
             }
         }
 
-        return unusedWord.get(AngrywordMain.rand.nextInt(unusedWord.size()));
+        return getRandomWordResourceFromList(unusedWord);
+    }
+
+    public WordResource getRandomUsedWordResource() {
+        List<WordResource> usedWord = new ArrayList<>();
+
+        for (WordResource word : words) {
+            if(word.isUsed()) {
+                usedWord.add(word);
+            }
+        }
+
+        return getRandomWordResourceFromList(usedWord);
+    }
+
+    private WordResource getRandomWordResourceFromList(List<WordResource> wordResources) {
+        return wordResources.get(AngrywordMain.rand.nextInt(wordResources.size()));
     }
 }

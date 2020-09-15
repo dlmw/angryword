@@ -13,6 +13,7 @@ import java.util.Random;
 
 import ch.ansermgw.angryword.models.Bird;
 import ch.ansermgw.angryword.models.Bubble;
+import ch.ansermgw.angryword.models.Panel;
 import ch.ansermgw.angryword.models.PhysicalObject;
 import ch.ansermgw.angryword.models.Pig;
 import ch.ansermgw.angryword.models.Slingshot;
@@ -36,6 +37,7 @@ public class AngrywordMain extends Game implements InputProcessor {
     private OrthographicCamera camera;
     private VocabularyResource vocabulary;
     private Bubble bubble;
+    private Panel panel;
 
     @Override
     public void create() {
@@ -58,6 +60,8 @@ public class AngrywordMain extends Game implements InputProcessor {
 
         bird = new Bird(BIRD_SPAWN);
         wasp = new Wasp(new Vector2(Math.abs(WORLD_WIDTH / 3), Math.abs(WORLD_HEIGHT / 2)));
+
+        panel = new Panel(new Vector2(Math.abs(WORLD_WIDTH / 15), WORLD_HEIGHT-Panel.HEIGHT), vocabulary.getRandomUsedWordResource());
 
         Gdx.input.setInputProcessor(this);
     }
@@ -83,6 +87,7 @@ public class AngrywordMain extends Game implements InputProcessor {
         bird.draw(batch);
         wasp.draw(batch);
         scenery.draw(batch);
+        panel.draw(batch);
 
         if (bubble != null)
             bubble.draw(batch);
