@@ -26,8 +26,8 @@ public class VocabularyResource {
     public WordResource getRandomUnusedWordResource() {
         List<WordResource> unusedWord = new ArrayList<>();
 
-        for (WordResource word: words) {
-            if(!word.isUsed()) {
+        for (WordResource word : words) {
+            if (!word.isUsed()) {
                 unusedWord.add(word);
             }
         }

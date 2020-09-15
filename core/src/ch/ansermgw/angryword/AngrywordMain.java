@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-import java.util.List;
 import java.util.Random;
 
 import ch.ansermgw.angryword.models.Bird;
@@ -58,7 +57,7 @@ public class AngrywordMain extends Game implements InputProcessor {
         scenery.addTnt();
 
         bird = new Bird(BIRD_SPAWN);
-        wasp = new Wasp(new Vector2(Math.abs(WORLD_WIDTH / 2), Math.abs(WORLD_HEIGHT / 2)));
+        wasp = new Wasp(new Vector2(Math.abs(WORLD_WIDTH / 3), Math.abs(WORLD_HEIGHT / 2)));
 
         Gdx.input.setInputProcessor(this);
     }
@@ -101,7 +100,7 @@ public class AngrywordMain extends Game implements InputProcessor {
             return;
         }
 
-        if(bird.isCollidingTo(wasp)) {
+        if (bird.isCollidingTo(wasp)) {
             bird.kill();
             return;
         }
@@ -110,7 +109,7 @@ public class AngrywordMain extends Game implements InputProcessor {
             if (!(element instanceof Slingshot) && bird.isCollidingTo(element)) {
                 bird.kill();
 
-                if(element instanceof Pig) {
+                if (element instanceof Pig) {
                     scenery.removeElement(element);
                     bird.reset();
                 }
@@ -130,8 +129,8 @@ public class AngrywordMain extends Game implements InputProcessor {
             bird.aim();
         }
 
-        for (PhysicalObject physicalObject: scenery.getElements()) {
-            if(physicalObject instanceof Pig && isPhysicalObjectContainingVector(physicalObject, getAbsolutePosition(screenX, screenY))) {
+        for (PhysicalObject physicalObject : scenery.getElements()) {
+            if (physicalObject instanceof Pig && isPhysicalObjectContainingVector(physicalObject, getAbsolutePosition(screenX, screenY))) {
                 bubble = new Bubble(
                         new Vector2(
                                 physicalObject.getX() - physicalObject.getWidth(),

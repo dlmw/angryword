@@ -15,20 +15,20 @@ public class WordResource {
         return word;
     }
 
-    public String getTranslation() {
-        return translation;
-    }
-
-    public boolean isUsed() {
-        return isUsed;
-    }
-
     public void setWord(String word) {
         this.word = word;
     }
 
+    public String getTranslation() {
+        return translation;
+    }
+
     public void setTranslation(String translation) {
         this.translation = translation;
+    }
+
+    public boolean isUsed() {
+        return isUsed;
     }
 
     public void setUsed(boolean used) {

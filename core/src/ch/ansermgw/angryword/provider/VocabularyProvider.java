@@ -18,14 +18,20 @@ public class VocabularyProvider {
         VocabularyResource voc = new VocabularyResource("French - English T1");
         WordResource word;
 
-        word = new WordResource("Bonjour", "Hello"); voc.addWord(word);
-        word = new WordResource("Manger", "to Eat"); voc.addWord(word);
-        word = new WordResource("Vendre", "to Sell"); voc.addWord(word);
-        word = new WordResource("Acheter", "to Buy"); voc.addWord(word);
-        word = new WordResource("Voler", "to Fly"); voc.addWord(word);
-        word = new WordResource("Avion", "Plane"); voc.addWord(word);
+        word = new WordResource("Bonjour", "Hello");
+        voc.addWord(word);
+        word = new WordResource("Manger", "to Eat");
+        voc.addWord(word);
+        word = new WordResource("Vendre", "to Sell");
+        voc.addWord(word);
+        word = new WordResource("Acheter", "to Buy");
+        voc.addWord(word);
+        word = new WordResource("Voler", "to Fly");
+        voc.addWord(word);
+        word = new WordResource("Avion", "Plane");
+        voc.addWord(word);
 
-       vocabularies.add(voc);
+        vocabularies.add(voc);
     }
 
     public static VocabularyProvider getInstance() {

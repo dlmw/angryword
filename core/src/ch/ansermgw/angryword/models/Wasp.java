@@ -1,31 +1,37 @@
 package ch.ansermgw.angryword.models;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import ch.ansermgw.angryword.AngrywordMain;
 
 
 public class Wasp extends MovingObject {
-
-    private static final int AGITATION = AngrywordMain.WORLD_WIDTH / 3;
     private static final String SPRITE_NAME = "wasp.png";
     private static final int WIDTH = 60;
     private static final int HEIGHT = 60;
 
+    private final Vector2 cycleLength = new Vector2(1300, 900);
+    private final Vector2 cycleScale = new Vector2(
+            Math.abs(AngrywordMain.WORLD_WIDTH / 5) - WIDTH,
+            Math.abs(AngrywordMain.WORLD_HEIGHT / 4)
+    );
+    private final long spawnTime;
+
     public Wasp(Vector2 position) {
-        super(position, WIDTH, HEIGHT, SPRITE_NAME, new Vector2(20, 20));
+        super(position, WIDTH, HEIGHT, SPRITE_NAME, Vector2.Zero);
+        spawnTime = TimeUtils.millis();
     }
 
     @Override
     public void accelerate(float dt) {
-        Vector2 folly = new Vector2(
-                AngrywordMain.rand.nextFloat() - getX() / AngrywordMain.WORLD_WIDTH,
-                AngrywordMain.rand.nextFloat() - getY() / AngrywordMain.WORLD_HEIGHT
-        );
+        long globalCounter = TimeUtils.timeSinceMillis(spawnTime);
 
-        speed = speed.add(folly.scl(AGITATION * dt));
+        float x = (float) Math.sin(globalCounter / cycleLength.x) * cycleScale.x;
+        float y = (float) Math.cos(globalCounter / cycleLength.y) * cycleScale.y;
+
+        this.speed = new Vector2(x, y);
     }
-
-
 }
+
 
