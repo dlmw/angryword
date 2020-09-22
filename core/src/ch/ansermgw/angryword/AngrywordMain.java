@@ -124,7 +124,7 @@ public class AngrywordMain extends Game implements InputProcessor {
                         WordResource wordResource = vocabulary.getRandomUsedWordResource();
 
                         if(wordResource != null) {
-                            this.panel.setWordResource(vocabulary.getRandomUsedWordResource());
+                            this.panel.setWordResource(wordResource);
                         } else {
                             //TODO game over
                         }
