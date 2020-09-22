@@ -1,6 +1,7 @@
 package ch.ansermgw.angryword;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -14,9 +15,7 @@ import ch.ansermgw.angryword.resource.VocabularyResource;
 import ch.ansermgw.angryword.resource.WordResource;
 
 public class Scenery {
-    public static final int BLOCK_SIZE = 50;
-    private static final int FLOOR_START = 10 * BLOCK_SIZE;
-
+    private static int BLOCK_SIZE = 50;
     private ArrayList<PhysicalObject> elements;
     private VocabularyResource vocabulary;
 
@@ -34,8 +33,9 @@ public class Scenery {
     }
 
     public void addFloor() {
-        for (int i = 0; i < (AngrywordMain.WORLD_WIDTH - FLOOR_START) / BLOCK_SIZE; i++) {
-            addElement(new Block(new Vector2(FLOOR_START + i * BLOCK_SIZE, AngrywordMain.FLOOR_HEIGHT)));
+        for (int i = 0; i < 20; i++) {
+            Vector2 position = generateRandomItemPosition();
+            addElement(new Block(position));
         }
 
         addElement(new Slingshot(new Vector2(AngrywordMain.BIRD_SPAWN.x - 25, AngrywordMain.BIRD_SPAWN.y - 225)));
@@ -50,59 +50,66 @@ public class Scenery {
 
         while (pigCount < 3) {
             WordResource wordResource = vocabulary.getRandomUnusedWordResource();
-            Pig pig = new Pig(generateRandomePositionForFloorItem(), wordResource);
 
             try {
-                checkCollidingWithExistingScene(pig);
+                PhysicalObject element = elements.get(AngrywordMain.rand.nextInt(elements.size()));
+
+                Vector2 position = generateRandomItemPosition(
+                        Math.round(element.getX()),
+                        Math.round(element.getY())
+                );
+
+                Pig pig = new Pig(position, wordResource);
                 wordResource.setUsed(true);
                 addElement(pig);
                 pigCount++;
             } catch (Exception e) {
                 System.out.println("One pig collided");
             }
-
-
         }
     }
 
     public void addTnt() {
-
-        while (true) {
-            Vector2 randomPos = generateRandomePositionForFloorItem();
-
-            try {
-                Tnt tnt = new Tnt(generateRandomePositionForFloorItem());
-                checkCollidingWithExistingScene(tnt);
-
-                for (int i = 0; i < 4; i++) {
-                    addElement(new Tnt(new Vector2(randomPos.x, randomPos.y + Tnt.HEIGHT * i)));
-                }
-
-                break;
-            } catch (Exception e) {
-                System.out.println("One tnt collided");
-            }
-
+        for (int i = 0; i < 10; i++) {
+            Vector2 position = generateRandomItemPosition();
+            addElement(new Tnt(position));
         }
+    }
+
+    private Vector2 generateRandomItemPosition() {
+        Vector2 position = null;
+        int startX = Math.round(AngrywordMain.BIRD_SPAWN.x) * 2;
+
+        while (position == null) {
+            try {
+                int randomeX = startX + AngrywordMain.rand.nextInt(AngrywordMain.WORLD_WIDTH - startX - 100);
+                int startY = AngrywordMain.FLOOR_HEIGHT;
+
+                position = generateRandomItemPosition(randomeX, startY);
+            } catch (Exception ignored) {
+            }
+        }
+
+        return position;
+    }
+
+    private Vector2 generateRandomItemPosition(int x, int startY) throws Exception {
+        for (PhysicalObject element : elements) {
+            Rectangle rec = element.getBoundingRectangle();
+
+            if (rec.overlaps(new Rectangle(x, startY, BLOCK_SIZE, BLOCK_SIZE))) {
+                return generateRandomItemPosition(x, Math.round(rec.y + rec.height + 5));
+            }
+        }
+
+        if (startY > AngrywordMain.WORLD_HEIGHT / 2) {
+            throw new Exception("Space filled");
+        }
+
+        return new Vector2(x, startY);
     }
 
     public void draw(Batch batch) {
         for (PhysicalObject p : elements) p.draw(batch);
-    }
-
-
-    private Vector2 generateRandomePositionForFloorItem() {
-        return new Vector2(
-                FLOOR_START + AngrywordMain.rand.nextInt(AngrywordMain.WORLD_WIDTH - FLOOR_START),
-                AngrywordMain.FLOOR_HEIGHT + 60
-        );
-    }
-
-    private void checkCollidingWithExistingScene(PhysicalObject object) throws Exception {
-        for (PhysicalObject element : elements) {
-            if (element.isCollidingTo(object)) {
-                throw new Exception("New object would collide");
-            }
-        }
     }
 }
