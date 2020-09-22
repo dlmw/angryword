@@ -48,6 +48,10 @@ public class VocabularyResource {
     }
 
     private WordResource getRandomWordResourceFromList(List<WordResource> wordResources) {
+        if(wordResources.size() < 1) {
+            return null;
+        }
+
         return wordResources.get(AngrywordMain.rand.nextInt(wordResources.size()));
     }
 }

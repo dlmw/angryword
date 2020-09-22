@@ -56,8 +56,8 @@ public class AngrywordMain extends Game implements InputProcessor {
 
         scenery = new Scenery(vocabulary);
         scenery.addFloor();
-        scenery.addPig();
         scenery.addTnt();
+        scenery.addPig();
 
         bird = new Bird(BIRD_SPAWN);
         wasp = new Wasp(new Vector2(Math.abs(WORLD_WIDTH / 3), Math.abs(WORLD_HEIGHT / 2)));
