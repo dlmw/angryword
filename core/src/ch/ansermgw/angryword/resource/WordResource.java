@@ -1,7 +1,5 @@
 package ch.ansermgw.angryword.resource;
 
-import java.util.Objects;
-
 public class WordResource {
     private String word;
     private String translation;

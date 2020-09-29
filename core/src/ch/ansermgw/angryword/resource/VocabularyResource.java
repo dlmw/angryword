@@ -3,7 +3,7 @@ package ch.ansermgw.angryword.resource;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.ansermgw.angryword.AngrywordMain;
+import ch.ansermgw.angryword.activities.Play;
 
 public class VocabularyResource {
     private List<WordResource> words;
@@ -39,7 +39,7 @@ public class VocabularyResource {
         List<WordResource> usedWord = new ArrayList<>();
 
         for (WordResource word : words) {
-            if(word.isUsed()) {
+            if (word.isUsed()) {
                 usedWord.add(word);
             }
         }
@@ -48,10 +48,10 @@ public class VocabularyResource {
     }
 
     private WordResource getRandomWordResourceFromList(List<WordResource> wordResources) {
-        if(wordResources.size() < 1) {
+        if (wordResources.size() < 1) {
             return null;
         }
 
-        return wordResources.get(AngrywordMain.rand.nextInt(wordResources.size()));
+        return wordResources.get(Play.rand.nextInt(wordResources.size()));
     }
 }

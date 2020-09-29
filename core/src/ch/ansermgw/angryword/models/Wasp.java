@@ -3,7 +3,7 @@ package ch.ansermgw.angryword.models;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 
-import ch.ansermgw.angryword.AngrywordMain;
+import ch.ansermgw.angryword.activities.Play;
 
 
 public class Wasp extends MovingObject {
@@ -13,8 +13,8 @@ public class Wasp extends MovingObject {
 
     private final Vector2 cycleLength = new Vector2(1300, 900);
     private final Vector2 cycleScale = new Vector2(
-            Math.abs(AngrywordMain.WORLD_WIDTH / 5) - WIDTH,
-            Math.abs(AngrywordMain.WORLD_HEIGHT / 4)
+            Math.abs(Play.WORLD_WIDTH / 5) - WIDTH,
+            Math.abs(Play.WORLD_HEIGHT / 4)
     );
     private final long spawnTime;
 

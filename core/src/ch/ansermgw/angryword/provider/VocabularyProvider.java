@@ -4,7 +4,7 @@ package ch.ansermgw.angryword.provider;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.ansermgw.angryword.AngrywordMain;
+import ch.ansermgw.angryword.activities.Play;
 import ch.ansermgw.angryword.resource.VocabularyResource;
 import ch.ansermgw.angryword.resource.WordResource;
 
@@ -42,6 +42,6 @@ public class VocabularyProvider {
     }
 
     public VocabularyResource getRandomVocabulary() {
-        return vocabularies.get(AngrywordMain.rand.nextInt(vocabularies.size()));
+        return vocabularies.get(Play.rand.nextInt(vocabularies.size()));
     }
 }

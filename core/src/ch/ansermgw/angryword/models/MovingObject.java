@@ -2,7 +2,7 @@ package ch.ansermgw.angryword.models;
 
 import com.badlogic.gdx.math.Vector2;
 
-import static ch.ansermgw.angryword.AngrywordMain.WORLD_HEIGHT;
+import static ch.ansermgw.angryword.activities.Play.WORLD_HEIGHT;
 
 public abstract class MovingObject extends PhysicalObject {
     protected final static double Gravity = -(WORLD_HEIGHT / 4.0);

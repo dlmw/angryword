@@ -1,4 +1,4 @@
-package ch.ansermgw.angryword;
+package ch.ansermgw.angryword.models;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
@@ -6,11 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
-import ch.ansermgw.angryword.models.Block;
-import ch.ansermgw.angryword.models.PhysicalObject;
-import ch.ansermgw.angryword.models.Pig;
-import ch.ansermgw.angryword.models.Slingshot;
-import ch.ansermgw.angryword.models.Tnt;
+import ch.ansermgw.angryword.activities.Play;
 import ch.ansermgw.angryword.resource.VocabularyResource;
 import ch.ansermgw.angryword.resource.WordResource;
 
@@ -38,7 +34,7 @@ public class Scenery {
             addElement(new Block(position));
         }
 
-        addElement(new Slingshot(new Vector2(AngrywordMain.BIRD_SPAWN.x - 25, AngrywordMain.BIRD_SPAWN.y - 225)));
+        addElement(new Slingshot(new Vector2(Play.BIRD_SPAWN.x - 25, Play.BIRD_SPAWN.y - 225)));
     }
 
     public ArrayList<PhysicalObject> getElements() {
@@ -52,7 +48,7 @@ public class Scenery {
             WordResource wordResource = vocabulary.getRandomUnusedWordResource();
 
             try {
-                PhysicalObject element = elements.get(AngrywordMain.rand.nextInt(elements.size()));
+                PhysicalObject element = elements.get(Play.rand.nextInt(elements.size()));
 
                 Vector2 position = generateRandomItemPosition(
                         Math.round(element.getX()),
@@ -78,12 +74,12 @@ public class Scenery {
 
     private Vector2 generateRandomItemPosition() {
         Vector2 position = null;
-        int startX = Math.round(AngrywordMain.BIRD_SPAWN.x) * 2;
+        int startX = Math.round(Play.BIRD_SPAWN.x) * 2;
 
         while (position == null) {
             try {
-                int randomeX = startX + AngrywordMain.rand.nextInt(AngrywordMain.WORLD_WIDTH - startX - 100);
-                int startY = AngrywordMain.FLOOR_HEIGHT;
+                int randomeX = startX + Play.rand.nextInt(Play.WORLD_WIDTH - startX - 100);
+                int startY = Play.FLOOR_HEIGHT;
 
                 position = generateRandomItemPosition(randomeX, startY);
             } catch (Exception ignored) {
@@ -102,7 +98,7 @@ public class Scenery {
             }
         }
 
-        if (startY > AngrywordMain.WORLD_HEIGHT / 2) {
+        if (startY > Play.WORLD_HEIGHT / 2) {
             throw new Exception("Space filled");
         }
 
