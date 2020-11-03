@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
 
 import ch.ansermgw.angryword.activities.Play;
+import ch.ansermgw.angryword.exception.OutOfSceneryException;
 import ch.ansermgw.angryword.resource.VocabularyResource;
 import ch.ansermgw.angryword.resource.WordResource;
 
@@ -42,9 +43,11 @@ public class Scenery {
     }
 
     public void addPig() {
+        //used to limit the number of time it try to place a pig
+        int nbIteration = 0;
         int pigCount = 0;
 
-        while (pigCount < 3) {
+        while (pigCount < 3 && nbIteration < 100) {
             WordResource wordResource = vocabulary.getRandomUnusedWordResource();
 
             try {
@@ -59,9 +62,11 @@ public class Scenery {
                 wordResource.setUsed(true);
                 addElement(pig);
                 pigCount++;
-            } catch (Exception e) {
-                System.out.println("One pig collided");
+            } catch (OutOfSceneryException e) {
+                System.out.println("One pig is already on this x position");
             }
+
+            nbIteration++;
         }
     }
 
@@ -82,14 +87,14 @@ public class Scenery {
                 int startY = Play.FLOOR_HEIGHT;
 
                 position = generateRandomItemPosition(randomeX, startY);
-            } catch (Exception ignored) {
+            } catch (OutOfSceneryException ignored) {
             }
         }
 
         return position;
     }
 
-    private Vector2 generateRandomItemPosition(int x, int startY) throws Exception {
+    private Vector2 generateRandomItemPosition(int x, int startY) throws OutOfSceneryException {
         for (PhysicalObject element : elements) {
             Rectangle rec = element.getBoundingRectangle();
 
@@ -99,7 +104,7 @@ public class Scenery {
         }
 
         if (startY > Play.WORLD_HEIGHT / 2) {
-            throw new Exception("Space filled");
+            throw new OutOfSceneryException("Space filled");
         }
 
         return new Vector2(x, startY);
