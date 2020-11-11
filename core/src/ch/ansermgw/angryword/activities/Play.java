@@ -114,6 +114,7 @@ public class Play extends Activity {
 
         if (bird.getState() == Bird.BirdState.init && isPhysicalObjectContainingVector(bird, getAbsolutePosition(screenX, screenY))) {
             bird.aim();
+            return true;
         }
 
         for (PhysicalObject physicalObject : scenery.getElements()) {
@@ -125,7 +126,13 @@ public class Play extends Activity {
                         ),
                         ((Pig) physicalObject).getWord()
                 );
+                return true;
             }
+        }
+
+        // if touch no element and bird is flying or dead then reset bird
+        if (bird.getState() == Bird.BirdState.fly || bird.getState() == Bird.BirdState.dead) {
+            bird.reset();
         }
 
         return true;
