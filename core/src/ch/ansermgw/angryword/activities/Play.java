@@ -7,7 +7,6 @@ import ch.ansermgw.angryword.resource.VocabularyResource;
 import ch.ansermgw.angryword.resource.WordResource;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 import java.util.Random;
 
@@ -111,14 +110,15 @@ public class Play extends Activity {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         bubble = null;
+        Vector2 touchPosition = super.getAbsolutePosition(screenX, screenY);
 
-        if (bird.getState() == Bird.BirdState.init && isPhysicalObjectContainingVector(bird, getAbsolutePosition(screenX, screenY))) {
+        if (bird.getState() == Bird.BirdState.init && super.isPhysicalObjectContainingVector(bird, touchPosition)) {
             bird.aim();
             return true;
         }
 
         for (PhysicalObject physicalObject : scenery.getElements()) {
-            if (physicalObject instanceof Pig && isPhysicalObjectContainingVector(physicalObject, getAbsolutePosition(screenX, screenY))) {
+            if (physicalObject instanceof Pig && super.isPhysicalObjectContainingVector(physicalObject, touchPosition)) {
                 bubble = new Bubble(
                         new Vector2(
                                 physicalObject.getX() - physicalObject.getWidth(),
@@ -141,7 +141,7 @@ public class Play extends Activity {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (bird.getState() == Bird.BirdState.aim) {
-            bird.release(getAbsolutePosition(screenX, screenY));
+            bird.release(super.getAbsolutePosition(screenX, screenY));
         }
         return true;
     }
@@ -149,7 +149,7 @@ public class Play extends Activity {
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (bird.getState() == Bird.BirdState.aim) {
-            Vector2 pos = limitPositionToShootingZone(getAbsolutePosition(screenX, screenY));
+            Vector2 pos = limitPositionToShootingZone(super.getAbsolutePosition(screenX, screenY));
 
             bird.setPosition(pos.x, pos.y);
         }
@@ -180,15 +180,6 @@ public class Play extends Activity {
     @Override
     public boolean scrolled(int amount) {
         return false;
-    }
-
-    private boolean isPhysicalObjectContainingVector(PhysicalObject physicalObject, Vector2 vector) {
-        return physicalObject.getBoundingRectangle().contains(vector);
-    }
-
-    private Vector2 getAbsolutePosition(int x, int y) {
-        Vector3 pos = super.camera.unproject(new Vector3(x, y, 0));
-        return new Vector2(pos.x, pos.y);
     }
 
     private Vector2 limitPositionToShootingZone(Vector2 position) {
