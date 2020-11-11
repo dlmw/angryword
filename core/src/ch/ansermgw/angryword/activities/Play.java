@@ -1,8 +1,11 @@
 package ch.ansermgw.angryword.activities;
 
-import com.badlogic.gdx.Game;
+import ch.ansermgw.angryword.AngrywordMain;
+import ch.ansermgw.angryword.models.*;
+import ch.ansermgw.angryword.provider.VocabularyProvider;
+import ch.ansermgw.angryword.resource.VocabularyResource;
+import ch.ansermgw.angryword.resource.WordResource;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,20 +14,7 @@ import com.badlogic.gdx.math.Vector3;
 
 import java.util.Random;
 
-import ch.ansermgw.angryword.AngrywordMain;
-import ch.ansermgw.angryword.models.Bird;
-import ch.ansermgw.angryword.models.Bubble;
-import ch.ansermgw.angryword.models.Panel;
-import ch.ansermgw.angryword.models.PhysicalObject;
-import ch.ansermgw.angryword.models.Pig;
-import ch.ansermgw.angryword.models.Scenery;
-import ch.ansermgw.angryword.models.Slingshot;
-import ch.ansermgw.angryword.models.Wasp;
-import ch.ansermgw.angryword.provider.VocabularyProvider;
-import ch.ansermgw.angryword.resource.VocabularyResource;
-import ch.ansermgw.angryword.resource.WordResource;
-
-public class Play extends Game implements InputProcessor {
+public class Play extends Activity {
     public static final int WORLD_WIDTH = 1600;
     public static final int WORLD_HEIGHT = 900;
     public static final int FLOOR_HEIGHT = 150;
@@ -65,8 +55,6 @@ public class Play extends Game implements InputProcessor {
         wasp = new Wasp(new Vector2(Math.abs(WORLD_WIDTH / 3), Math.abs(WORLD_HEIGHT / 2)));
 
         panel = new Panel(new Vector2(Math.abs(WORLD_WIDTH / 15), WORLD_HEIGHT - Panel.HEIGHT), vocabulary.getRandomUsedWordResource());
-
-        Gdx.input.setInputProcessor(this);
     }
 
     private void update() {
@@ -122,17 +110,12 @@ public class Play extends Game implements InputProcessor {
                     Pig pig = ((Pig) element);
                     pig.kill();
 
-                    if (panel.getWordResource().equals(pig.getWord())) {
-                        WordResource wordResource = vocabulary.getRandomUsedWordResource();
+                    WordResource wordResource = vocabulary.getRandomUsedWordResource();
 
-                        if (wordResource != null) {
-                            this.panel.setWordResource(wordResource);
-                        } else {
-                            //TODO game over
-                        }
+                    if (panel.getWordResource().equals(pig.getWord()) && wordResource != null) {
+                        this.panel.setWordResource(wordResource);
                     } else {
-                        AngrywordMain.activities.pop();
-                        Gdx.input.setInputProcessor((InputProcessor) AngrywordMain.activities.peek());
+                        AngrywordMain.getInstance().pop();
                     }
 
                     bird.reset();

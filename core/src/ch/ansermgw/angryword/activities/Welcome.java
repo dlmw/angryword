@@ -1,20 +1,16 @@
 package ch.ansermgw.angryword.activities;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
+import ch.ansermgw.angryword.AngrywordMain;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import ch.ansermgw.angryword.AngrywordMain;
-
 import static ch.ansermgw.angryword.activities.Play.WORLD_HEIGHT;
 import static ch.ansermgw.angryword.activities.Play.WORLD_WIDTH;
 
-public class Welcome extends Game implements InputProcessor {
+public class Welcome extends Activity {
     private static final String BACKGROUND_NAME = "background.jpg";
     private Texture background;
     private SpriteBatch batch;
@@ -36,8 +32,6 @@ public class Welcome extends Game implements InputProcessor {
         camera.setToOrtho(false, WORLD_WIDTH, WORLD_HEIGHT);
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
         camera.update();
-
-        Gdx.input.setInputProcessor(this);
     }
 
     @Override
@@ -56,9 +50,9 @@ public class Welcome extends Game implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Game play = new Play();
+        Activity play = new Play();
         play.create();
-        AngrywordMain.activities.push(play);
+        AngrywordMain.getInstance().push(play);
 
         return true;
     }

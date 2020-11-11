@@ -1,23 +1,50 @@
 package ch.ansermgw.angryword;
 
+import ch.ansermgw.angryword.activities.Activity;
+import ch.ansermgw.angryword.activities.Welcome;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 
 import java.util.Enumeration;
 import java.util.Stack;
 
-import ch.ansermgw.angryword.activities.Welcome;
-
 public class AngrywordMain extends Game {
-    public static Stack<Game> activities;
+    private static AngrywordMain instance;
+    private static Stack<Activity> activities;
+
+    private AngrywordMain() {
+    }
+
+    private void updateInputProcessor() {
+        Gdx.input.setInputProcessor(activities.peek());
+    }
+
+    public static AngrywordMain getInstance() {
+        if (instance == null) {
+            instance = new AngrywordMain();
+        }
+
+        return instance;
+    }
+
+    public void push(Activity activity) {
+        activities.push(activity);
+        updateInputProcessor();
+    }
+
+    public void pop() {
+        activities.pop();
+        updateInputProcessor();
+    }
 
     @Override
     public void create() {
         activities = new Stack<>();
 
-        Game welcome = new Welcome();
+        Activity welcome = new Welcome();
         welcome.create();
 
-        activities.push(welcome);
+        push(welcome);
     }
 
     @Override
@@ -27,7 +54,7 @@ public class AngrywordMain extends Game {
 
     @Override
     public void dispose() {
-        Enumeration<Game> activitiesEnum = activities.elements();
+        Enumeration<Activity> activitiesEnum = activities.elements();
 
         while (activitiesEnum.hasMoreElements()) {
             Game nextActivity = activitiesEnum.nextElement();
