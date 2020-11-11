@@ -2,50 +2,28 @@ package ch.ansermgw.angryword.activities;
 
 import ch.ansermgw.angryword.AngrywordMain;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import static ch.ansermgw.angryword.activities.Play.WORLD_HEIGHT;
 import static ch.ansermgw.angryword.activities.Play.WORLD_WIDTH;
 
 public class Welcome extends Activity {
-    private static final String BACKGROUND_NAME = "background.jpg";
-    private Texture background;
-    private SpriteBatch batch;
     private BitmapFont title;
-
-    private OrthographicCamera camera;
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
-
-        background = new Texture(BACKGROUND_NAME);
+        super.create();
 
         title = new BitmapFont();
         title.setColor(Color.RED);
         title.getData().setScale(7);
-
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, WORLD_WIDTH, WORLD_HEIGHT);
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-        camera.update();
     }
 
     @Override
     public void render() {
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
-        title.draw(batch, "Hello", Math.abs(WORLD_WIDTH / 2), Math.abs(WORLD_HEIGHT / 2));
-        batch.end();
-    }
-
-    @Override
-    public void dispose() {
-        batch.dispose();
+        super.render();
+        title.draw(super.batch, "Hello", Math.abs(WORLD_WIDTH / 2), Math.abs(WORLD_HEIGHT / 2));
+        super.batch.end();
     }
 
     @Override

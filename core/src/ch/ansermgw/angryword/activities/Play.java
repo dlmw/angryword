@@ -6,9 +6,6 @@ import ch.ansermgw.angryword.provider.VocabularyProvider;
 import ch.ansermgw.angryword.resource.VocabularyResource;
 import ch.ansermgw.angryword.resource.WordResource;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -19,31 +16,21 @@ public class Play extends Activity {
     public static final int WORLD_HEIGHT = 900;
     public static final int FLOOR_HEIGHT = 150;
     public static final Vector2 BIRD_SPAWN = new Vector2(200, FLOOR_HEIGHT + 200);
-    private static final String BACKGROUND_NAME = "background.jpg";
     public static Random rand;
-    private Texture background;
-    private SpriteBatch batch;
+
 
     private Bird bird;
     private Wasp wasp;
-    private ch.ansermgw.angryword.models.Scenery scenery;
-    private OrthographicCamera camera;
+    private Scenery scenery;
     private VocabularyResource vocabulary;
     private Bubble bubble;
     private Panel panel;
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
+        super.create();
 
         rand = new Random(System.currentTimeMillis());
-        background = new Texture(BACKGROUND_NAME);
-
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, WORLD_WIDTH, WORLD_HEIGHT);
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-        camera.update();
-
         vocabulary = VocabularyProvider.getInstance().getRandomVocabulary();
 
         scenery = new Scenery(vocabulary);
@@ -70,25 +57,18 @@ public class Play extends Activity {
 
     @Override
     public void render() {
+        super.render();
         update();
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        batch.draw(background, 0, 0, camera.viewportWidth, camera.viewportHeight);
 
-        bird.draw(batch);
-        wasp.draw(batch);
-        scenery.draw(batch);
-        panel.draw(batch);
+        bird.draw(super.batch);
+        wasp.draw(super.batch);
+        scenery.draw(super.batch);
+        panel.draw(super.batch);
 
         if (bubble != null)
-            bubble.draw(batch);
+            bubble.draw(super.batch);
 
-        batch.end();
-    }
-
-    @Override
-    public void dispose() {
-        batch.dispose();
+        super.batch.end();
     }
 
     private void handleBirdCollision() {
@@ -200,7 +180,7 @@ public class Play extends Activity {
     }
 
     private Vector2 getAbsolutePosition(int x, int y) {
-        Vector3 pos = camera.unproject(new Vector3(x, y, 0));
+        Vector3 pos = super.camera.unproject(new Vector3(x, y, 0));
         return new Vector2(pos.x, pos.y);
     }
 
@@ -210,5 +190,4 @@ public class Play extends Activity {
                 Math.min(Math.max(FLOOR_HEIGHT, position.y), BIRD_SPAWN.y)
         );
     }
-
 }
