@@ -24,6 +24,7 @@ public class Play extends Activity {
     private VocabularyResource vocabulary;
     private Bubble bubble;
     private Panel panel;
+    private Button pauseBtn;
 
     @Override
     public void create() {
@@ -41,6 +42,11 @@ public class Play extends Activity {
         wasp = new Wasp(new Vector2(Math.abs(WORLD_WIDTH / 3), Math.abs(WORLD_HEIGHT / 2)));
 
         panel = new Panel(new Vector2(Math.abs(WORLD_WIDTH / 15), WORLD_HEIGHT - Panel.HEIGHT), vocabulary.getRandomUsedWordResource());
+
+        pauseBtn = new Button(new Vector2(
+                Math.abs(WORLD_WIDTH - 2 * WORLD_WIDTH / 15),
+                WORLD_HEIGHT - Math.abs(Panel.HEIGHT / 2)
+        ), "Pause");
     }
 
     private void update() {
@@ -63,6 +69,7 @@ public class Play extends Activity {
         wasp.draw(super.batch);
         scenery.draw(super.batch);
         panel.draw(super.batch);
+        pauseBtn.draw(super.batch);
 
         if (bubble != null)
             bubble.draw(super.batch);
@@ -128,6 +135,13 @@ public class Play extends Activity {
                 );
                 return true;
             }
+        }
+
+        if (super.isPhysicalObjectContainingVector(pauseBtn, touchPosition)) {
+            Activity pause = new Pause();
+            pause.create();
+            AngrywordMain.getInstance().push(pause);
+            return true;
         }
 
         // if touch no element and bird is flying or dead then reset bird
