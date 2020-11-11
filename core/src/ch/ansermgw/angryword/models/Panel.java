@@ -1,8 +1,7 @@
 package ch.ansermgw.angryword.models;
 
-import com.badlogic.gdx.math.Vector2;
-
 import ch.ansermgw.angryword.resource.WordResource;
+import com.badlogic.gdx.math.Vector2;
 
 public class Panel extends TextualObject {
     public static final int WIDTH = 510 / 2;

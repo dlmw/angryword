@@ -1,15 +1,15 @@
 package ch.ansermgw.angryword.provider;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ch.ansermgw.angryword.activities.Play;
 import ch.ansermgw.angryword.resource.VocabularyResource;
 import ch.ansermgw.angryword.resource.WordResource;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class VocabularyProvider {
     private static VocabularyProvider instance;
-    private List<VocabularyResource> vocabularies;
+    private final List<VocabularyResource> vocabularies;
 
     private VocabularyProvider() {
         vocabularies = new ArrayList<>();

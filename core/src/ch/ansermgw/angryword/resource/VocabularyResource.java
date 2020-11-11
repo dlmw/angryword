@@ -1,13 +1,13 @@
 package ch.ansermgw.angryword.resource;
 
+import ch.ansermgw.angryword.activities.Play;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.ansermgw.angryword.activities.Play;
-
 public class VocabularyResource {
-    private List<WordResource> words;
-    private String name;
+    private final List<WordResource> words;
+    private final String name;
 
     public VocabularyResource(ArrayList<WordResource> words, String name) {
         this.words = words;

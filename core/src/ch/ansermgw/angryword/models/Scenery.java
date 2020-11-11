@@ -1,20 +1,19 @@
 package ch.ansermgw.angryword.models;
 
+import ch.ansermgw.angryword.activities.Play;
+import ch.ansermgw.angryword.exception.OutOfSceneryException;
+import ch.ansermgw.angryword.resource.VocabularyResource;
+import ch.ansermgw.angryword.resource.WordResource;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
-import ch.ansermgw.angryword.activities.Play;
-import ch.ansermgw.angryword.exception.OutOfSceneryException;
-import ch.ansermgw.angryword.resource.VocabularyResource;
-import ch.ansermgw.angryword.resource.WordResource;
-
 public class Scenery {
-    private static int BLOCK_SIZE = 50;
-    private ArrayList<PhysicalObject> elements;
-    private VocabularyResource vocabulary;
+    private static final int BLOCK_SIZE = 50;
+    private final ArrayList<PhysicalObject> elements;
+    private final VocabularyResource vocabulary;
 
     public Scenery(VocabularyResource vocabulary) {
         this.vocabulary = vocabulary;

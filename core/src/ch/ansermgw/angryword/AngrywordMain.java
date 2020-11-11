@@ -15,16 +15,16 @@ public class AngrywordMain extends Game {
     private AngrywordMain() {
     }
 
-    private void updateInputProcessor() {
-        Gdx.input.setInputProcessor(activities.peek());
-    }
-
     public static AngrywordMain getInstance() {
         if (instance == null) {
             instance = new AngrywordMain();
         }
 
         return instance;
+    }
+
+    private void updateInputProcessor() {
+        Gdx.input.setInputProcessor(activities.peek());
     }
 
     public void push(Activity activity) {

@@ -1,9 +1,8 @@
 package ch.ansermgw.angryword.models;
 
+import ch.ansermgw.angryword.activities.Play;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
-
-import ch.ansermgw.angryword.activities.Play;
 
 
 public class Wasp extends MovingObject {

@@ -6,7 +6,7 @@ public class Bird extends MovingObject {
     private static final String SPRITE_NAME = "bird.png";
     private static final int WIDTH = 50;
     private static final int HEIGHT = 50;
-    private Vector2 initialPos;
+    private final Vector2 initialPos;
     private BirdState state = BirdState.init;
 
     public Bird(Vector2 position) {
