@@ -25,11 +25,35 @@ public class VocabularyResource {
         words.add(sw);
     }
 
-    public SemanticWord pickAWord() {
-        if (words.size() < 1) {
+    public SemanticWord getRandomUsedWordResource() {
+        List<SemanticWord> usedWord = new ArrayList<>();
+
+        for (SemanticWord word : words) {
+            if (word.isUsed()) {
+                usedWord.add(word);
+            }
+        }
+
+        return getRandomWordResourceFromList(usedWord);
+    }
+
+    public SemanticWord getRandomUnusedWordResource() {
+        List<SemanticWord> unusedWord = new ArrayList<>();
+
+        for (SemanticWord word : words) {
+            if (!word.isUsed()) {
+                unusedWord.add(word);
+            }
+        }
+
+        return getRandomWordResourceFromList(unusedWord);
+    }
+
+    private SemanticWord getRandomWordResourceFromList(List<SemanticWord> wordResources) {
+        if (wordResources.size() < 1) {
             return null;
         }
 
-        return words.get(AngrywordMain.getInstance().getRand().nextInt(words.size()));
+        return wordResources.get(AngrywordMain.getInstance().getRand().nextInt(wordResources.size()));
     }
 }

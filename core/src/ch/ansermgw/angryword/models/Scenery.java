@@ -47,8 +47,8 @@ public class Scenery {
         int nbIteration = 0;
         int pigCount = 0;
 
-        while (pigCount < 3 && nbIteration < 100) {
-            SemanticWord semanticWord = vocabulary.pickAWord();
+        while (pigCount < 5 && nbIteration < 100) {
+            SemanticWord semanticWord = vocabulary.getRandomUnusedWordResource();
 
             try {
                 PhysicalObject element = elements.get(AngrywordMain.getInstance().getRand().nextInt(elements.size()));
@@ -59,6 +59,7 @@ public class Scenery {
                 );
 
                 Pig pig = new Pig(position, semanticWord);
+                pig.getWord().setUsed(true);
                 addElement(pig);
                 pigCount++;
             } catch (OutOfSceneryException e) {

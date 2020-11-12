@@ -38,7 +38,7 @@ public class Play extends Activity {
         wasp = new Wasp(new Vector2(Math.abs(WORLD_WIDTH / 3), Math.abs(WORLD_HEIGHT / 2)));
 
         try {
-            panel = new Panel(new Vector2(Math.abs(WORLD_WIDTH / 15), WORLD_HEIGHT - Panel.HEIGHT), vocabulary.pickAWord());
+            panel = new Panel(new Vector2(Math.abs(WORLD_WIDTH / 15), WORLD_HEIGHT - Panel.HEIGHT), vocabulary.getRandomUsedWordResource());
         } catch (TranslationDoesNotExistException e) {
             e.printStackTrace();
         }
@@ -100,7 +100,7 @@ public class Play extends Activity {
                     Pig pig = ((Pig) element);
                     pig.kill();
 
-                    SemanticWord wordResource = vocabulary.pickAWord();
+                    SemanticWord wordResource = vocabulary.getRandomUsedWordResource();
 
                     if (panel.getWordResource().equals(pig.getWord()) && wordResource != null) {
                         this.panel.setWordResource(wordResource);
