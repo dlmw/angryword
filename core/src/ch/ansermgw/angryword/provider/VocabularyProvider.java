@@ -4,7 +4,6 @@ import ch.ansermgw.angryword.activities.Play;
 import ch.ansermgw.angryword.models.Language;
 import ch.ansermgw.angryword.models.SemanticWord;
 import ch.ansermgw.angryword.resource.VocabularyResource;
-import ch.ansermgw.angryword.resource.WordResource;
 
 import java.util.ArrayList;
 import java.util.List;

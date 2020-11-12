@@ -23,4 +23,8 @@ public class VocabularyResource {
     public void addSemanticWord(SemanticWord sw) {
         words.add(sw);
     }
+
+    public SemanticWord pickAWord() {
+        return words.get(Play.rand.nextInt(words.size()));
+    }
 }
