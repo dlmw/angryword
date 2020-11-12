@@ -3,7 +3,7 @@ package ch.ansermgw.angryword.models;
 import ch.ansermgw.angryword.activities.Play;
 import ch.ansermgw.angryword.exception.OutOfSceneryException;
 import ch.ansermgw.angryword.resource.VocabularyResource;
-import ch.ansermgw.angryword.resource.WordResource;
+
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -47,7 +47,7 @@ public class Scenery {
         int pigCount = 0;
 
         while (pigCount < 3 && nbIteration < 100) {
-            WordResource wordResource = vocabulary.getRandomUnusedWordResource();
+            SemanticWord semanticWord = vocabulary.pickAWord();
 
             try {
                 PhysicalObject element = elements.get(Play.rand.nextInt(elements.size()));
@@ -57,8 +57,7 @@ public class Scenery {
                         Math.round(element.getY())
                 );
 
-                Pig pig = new Pig(position, wordResource);
-                wordResource.setUsed(true);
+                Pig pig = new Pig(position, semanticWord);
                 addElement(pig);
                 pigCount++;
             } catch (OutOfSceneryException e) {
