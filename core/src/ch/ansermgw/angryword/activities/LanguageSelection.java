@@ -27,6 +27,8 @@ public class LanguageSelection extends Activity {
     BitmapFont bitmapFont;
     private String languageSelectionSummary = "Exercice de {0} en {1}";
 
+    private Button playButton;
+
     @Override
     public void create() {
         super.create();
@@ -64,10 +66,19 @@ public class LanguageSelection extends Activity {
         for (Button button : targetLanguagesButtons) {
             button.draw(super.batch);
         }
+
+        if (playButton != null) {
+            playButton.draw(super.batch);
+        }
+
         Language sourceLanguage = AngrywordMain.getInstance().getSourceLanguage();
         Language targetLanguage = AngrywordMain.getInstance().getTargetLanguage();
         String source = sourceLanguage != null ? sourceLanguage.getDisplayName() : "(choisir)";
         String target = targetLanguage != null ? targetLanguage.getDisplayName() : "(choisir)";
+
+        if (sourceLanguage != null && targetLanguage != null) {
+            playButton = new Button(new Vector2(WORLD_WIDTH / 2, WORLD_HEIGHT / 3), "Play");
+        }
 
         String textToDisplay = MessageFormat.format(languageSelectionSummary, new String[]{source, target});
         bitmapFont.draw(super.batch, textToDisplay, WORLD_WIDTH / 8, WORLD_HEIGHT / 5);
@@ -111,6 +122,12 @@ public class LanguageSelection extends Activity {
                 targetLanguagesButtons = new ArrayList<>();
                 return true;
             }
+        }
+
+        if (playButton != null && hasClicked(playButton, touchPosition)) {
+            Activity play = new Play();
+            play.create();
+            AngrywordMain.getInstance().push(play);
         }
 
         return false;
