@@ -1,8 +1,11 @@
 package ch.ansermgw.angryword.activities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +24,16 @@ public class LanguageSelection extends Activity {
     private List<LanguageSelectionButton> sourceLanguagesButtons;
     private List<LanguageSelectionButton> targetLanguagesButtons;
 
+    BitmapFont bitmapFont;
+    private String languageSelectionSummary = "Exercice de {0} en {1}";
+
     @Override
     public void create() {
         super.create();
+        bitmapFont = new BitmapFont();
+        bitmapFont.getData().setScale(5);
+        bitmapFont.setColor(Color.BLUE);
+
         sourceLanguages = LanguageProvider.getInstance().getLanguages();
         targetLanguages = LanguageProvider.getInstance().getLanguages();
 
@@ -54,6 +64,9 @@ public class LanguageSelection extends Activity {
         for (Button button : targetLanguagesButtons) {
             button.draw(super.batch);
         }
+
+        String textToDisplay = MessageFormat.format(languageSelectionSummary, new String[]{"(choisir)", "(choisir)"});
+        bitmapFont.draw(super.batch, textToDisplay, WORLD_WIDTH / 8, WORLD_HEIGHT / 5);
         super.batch.end();
     }
 
