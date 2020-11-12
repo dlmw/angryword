@@ -1,10 +1,11 @@
 package ch.ansermgw.angryword.activities;
 
 import ch.ansermgw.angryword.AngrywordMain;
+import ch.ansermgw.angryword.exception.TranslationDoesNotExistException;
 import ch.ansermgw.angryword.models.*;
 import ch.ansermgw.angryword.provider.VocabularyProvider;
 import ch.ansermgw.angryword.resource.VocabularyResource;
-import ch.ansermgw.angryword.resource.WordResource;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
@@ -41,7 +42,11 @@ public class Play extends Activity {
         bird = new Bird(BIRD_SPAWN);
         wasp = new Wasp(new Vector2(Math.abs(WORLD_WIDTH / 3), Math.abs(WORLD_HEIGHT / 2)));
 
-        panel = new Panel(new Vector2(Math.abs(WORLD_WIDTH / 15), WORLD_HEIGHT - Panel.HEIGHT), vocabulary.getRandomUsedWordResource());
+        try {
+            panel = new Panel(new Vector2(Math.abs(WORLD_WIDTH / 15), WORLD_HEIGHT - Panel.HEIGHT), vocabulary.pickAWord());
+        } catch (TranslationDoesNotExistException e) {
+            e.printStackTrace();
+        }
 
         pauseBtn = new Button(new Vector2(
                 Math.abs(WORLD_WIDTH - 2 * WORLD_WIDTH / 15),
@@ -54,7 +59,11 @@ public class Play extends Activity {
 
         bird.accelerate(dt);
         bird.move(dt);
-        handleBirdCollision();
+        try {
+            handleBirdCollision();
+        } catch (TranslationDoesNotExistException e) {
+            e.printStackTrace();
+        }
 
         wasp.accelerate(dt);
         wasp.move(dt);
@@ -77,7 +86,7 @@ public class Play extends Activity {
         super.batch.end();
     }
 
-    private void handleBirdCollision() {
+    private void handleBirdCollision() throws TranslationDoesNotExistException {
         if (bird.getState() != Bird.BirdState.fly) {
             return;
         }
@@ -96,7 +105,7 @@ public class Play extends Activity {
                     Pig pig = ((Pig) element);
                     pig.kill();
 
-                    WordResource wordResource = vocabulary.getRandomUsedWordResource();
+                    SemanticWord wordResource = vocabulary.pickAWord();
 
                     if (panel.getWordResource().equals(pig.getWord()) && wordResource != null) {
                         this.panel.setWordResource(wordResource);
@@ -126,13 +135,17 @@ public class Play extends Activity {
 
         for (PhysicalObject physicalObject : scenery.getElements()) {
             if (physicalObject instanceof Pig && super.isPhysicalObjectContainingVector(physicalObject, touchPosition)) {
-                bubble = new Bubble(
-                        new Vector2(
-                                physicalObject.getX() - physicalObject.getWidth(),
-                                physicalObject.getY() + physicalObject.getHeight()
-                        ),
-                        ((Pig) physicalObject).getWord()
-                );
+                try {
+                    bubble = new Bubble(
+                            new Vector2(
+                                    physicalObject.getX() - physicalObject.getWidth(),
+                                    physicalObject.getY() + physicalObject.getHeight()
+                            ),
+                            ((Pig) physicalObject).getWord()
+                    );
+                } catch (TranslationDoesNotExistException e) {
+                    e.printStackTrace();
+                }
                 return true;
             }
         }
