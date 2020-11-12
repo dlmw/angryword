@@ -2,6 +2,8 @@ package ch.ansermgw.angryword;
 
 import ch.ansermgw.angryword.activities.Activity;
 import ch.ansermgw.angryword.activities.Welcome;
+import ch.ansermgw.angryword.models.Language;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
@@ -13,6 +15,9 @@ public class AngrywordMain extends Game {
     private static AngrywordMain instance;
     private static Stack<Activity> activities;
     private static Random rand;
+
+    private static Language sourceLanguage;
+    private static Language targetLanguage;
 
     private AngrywordMain() {
         rand = new Random(System.currentTimeMillis());
@@ -28,6 +33,22 @@ public class AngrywordMain extends Game {
 
     public static Random getRand() {
         return rand;
+    }
+
+    public static Language getSourceLanguage() {
+        return sourceLanguage;
+    }
+
+    public static void setSourceLanguage(Language sourceLanguage) {
+        AngrywordMain.sourceLanguage = sourceLanguage;
+    }
+
+    public static Language getTargetLanguage() {
+        return targetLanguage;
+    }
+
+    public static void setTargetLanguage(Language targetLanguage) {
+        AngrywordMain.targetLanguage = targetLanguage;
     }
 
     private void updateInputProcessor() {

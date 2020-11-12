@@ -64,8 +64,12 @@ public class LanguageSelection extends Activity {
         for (Button button : targetLanguagesButtons) {
             button.draw(super.batch);
         }
+        Language sourceLanguage = AngrywordMain.getInstance().getSourceLanguage();
+        Language targetLanguage = AngrywordMain.getInstance().getTargetLanguage();
+        String source = sourceLanguage != null ? sourceLanguage.getDisplayName() : "(choisir)";
+        String target = targetLanguage != null ? targetLanguage.getDisplayName() : "(choisir)";
 
-        String textToDisplay = MessageFormat.format(languageSelectionSummary, new String[]{"(choisir)", "(choisir)"});
+        String textToDisplay = MessageFormat.format(languageSelectionSummary, new String[]{source, target});
         bitmapFont.draw(super.batch, textToDisplay, WORLD_WIDTH / 8, WORLD_HEIGHT / 5);
         super.batch.end();
     }
@@ -95,14 +99,16 @@ public class LanguageSelection extends Activity {
         Vector2 touchPosition = super.getAbsolutePosition(screenX, screenY);
         for (LanguageSelectionButton b : sourceLanguagesButtons) {
             if (hasClicked(b, touchPosition)) {
-                // TODO set source language to b.getLanguage()
+                AngrywordMain.getInstance().setSourceLanguage(b.getLanguage());
+                sourceLanguagesButtons = new ArrayList<>();
                 return true;
             }
         }
 
         for (LanguageSelectionButton b : targetLanguagesButtons) {
             if (hasClicked(b, touchPosition)) {
-                // TODO set target language to b.getLanguage()
+                AngrywordMain.getInstance().setTargetLanguage(b.getLanguage());
+                targetLanguagesButtons = new ArrayList<>();
                 return true;
             }
         }
