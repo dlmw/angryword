@@ -12,8 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.Random;
 
 public class Play extends Activity {
-    public static final int WORLD_WIDTH = 1600;
-    public static final int WORLD_HEIGHT = 900;
     public static final int FLOOR_HEIGHT = 150;
     public static final Vector2 BIRD_SPAWN = new Vector2(200, FLOOR_HEIGHT + 200);
 

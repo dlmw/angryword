@@ -28,9 +28,9 @@ public class Welcome extends Activity {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Activity play = new Play();
-        play.create();
-        AngrywordMain.getInstance().push(play);
+        Activity languageSelection = new LanguageSelection();
+        languageSelection.create();
+        AngrywordMain.getInstance().push(languageSelection);
 
         return true;
     }

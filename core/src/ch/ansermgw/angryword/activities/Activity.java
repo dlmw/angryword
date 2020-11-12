@@ -13,6 +13,8 @@ import static ch.ansermgw.angryword.activities.Play.WORLD_HEIGHT;
 import static ch.ansermgw.angryword.activities.Play.WORLD_WIDTH;
 
 public abstract class Activity extends Game implements InputProcessor {
+    public static final int WORLD_WIDTH = 1600;
+    public static final int WORLD_HEIGHT = 900;
     protected static final String BACKGROUND_NAME = "background.jpg";
     protected Texture background;
     protected SpriteBatch batch;
