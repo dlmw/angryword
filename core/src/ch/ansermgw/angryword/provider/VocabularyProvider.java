@@ -15,6 +15,7 @@ public class VocabularyProvider {
     private List<Language> languages;
 
     private VocabularyProvider() {
+        languages = new ArrayList<>();
         Language frenchLanguage = new Language("Français", "fr");
         Language englishLanguage = new Language("Anglais", "en");
         Language spanishLanguage = new Language("Espagnol", "es");
