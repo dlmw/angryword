@@ -33,14 +33,14 @@ public class LanguageProvider {
         return languages;
     }
 
-    public Language getLanguage(String iso) {
+    public Language getLanguage(String iso) throws LanguageNonExistentException {
         Language language = null;
         for (Language l : languages) {
             if (l.getIso_639_1().equalsIgnoreCase(iso)) {
                 return l;
             }
         }
-        return language;
+        throw new LanguageNonExistentException("No " + iso + " trans");
     }
 
     private void setLanguages(List<Language> languages) {

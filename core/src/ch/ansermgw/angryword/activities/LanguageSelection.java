@@ -14,6 +14,7 @@ import ch.ansermgw.angryword.models.Button;
 import ch.ansermgw.angryword.models.Language;
 import ch.ansermgw.angryword.models.LanguageSelectionButton;
 import ch.ansermgw.angryword.provider.LanguageProvider;
+import ch.ansermgw.angryword.test.SemanticWordTest;
 
 public class LanguageSelection extends Activity {
     private List<Language> sourceLanguages;
@@ -32,6 +33,10 @@ public class LanguageSelection extends Activity {
     @Override
     public void create() {
         super.create();
+
+        SemanticWordTest.addTranslationTest();
+        SemanticWordTest.getValueTest();
+
         bitmapFont = new BitmapFont();
         bitmapFont.getData().setScale(5);
         bitmapFont.setColor(Color.BLUE);
