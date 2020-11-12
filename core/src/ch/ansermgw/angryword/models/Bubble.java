@@ -11,6 +11,6 @@ public class Bubble extends TextualObject {
     private static final String SPRITE_NAME = "bubble.png";
 
     public Bubble(Vector2 position, SemanticWord word) throws TranslationDoesNotExistException {
-        super(position, WIDTH, HEIGHT, SPRITE_NAME, word.getValue(LanguageProvider.getInstance().getLanguage("fr"))); // TODO get from current language
+        super(position, WIDTH, HEIGHT, SPRITE_NAME, word.getValue(LanguageProvider.getInstance().getLanguage("en"))); // TODO get from current language
     }
 }
