@@ -1,6 +1,7 @@
 package ch.ansermgw.angryword;
 
 import ch.ansermgw.angryword.activities.Activity;
+import ch.ansermgw.angryword.activities.LanguageSelection;
 import ch.ansermgw.angryword.activities.Welcome;
 import ch.ansermgw.angryword.models.Language;
 
@@ -69,10 +70,10 @@ public class AngrywordMain extends Game {
     public void create() {
         activities = new Stack<>();
 
-        Activity welcome = new Welcome();
-        welcome.create();
+        Activity languageSelection = new LanguageSelection();
+        languageSelection.create();
 
-        push(welcome);
+        push(languageSelection);
     }
 
     @Override
