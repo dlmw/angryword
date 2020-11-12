@@ -6,13 +6,16 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
 import java.util.Enumeration;
+import java.util.Random;
 import java.util.Stack;
 
 public class AngrywordMain extends Game {
     private static AngrywordMain instance;
     private static Stack<Activity> activities;
+    private static Random rand;
 
     private AngrywordMain() {
+        rand = new Random(System.currentTimeMillis());
     }
 
     public static AngrywordMain getInstance() {
@@ -21,6 +24,10 @@ public class AngrywordMain extends Game {
         }
 
         return instance;
+    }
+
+    public static Random getRand() {
+        return rand;
     }
 
     private void updateInputProcessor() {

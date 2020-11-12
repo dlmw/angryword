@@ -1,5 +1,6 @@
 package ch.ansermgw.angryword.models;
 
+import ch.ansermgw.angryword.AngrywordMain;
 import ch.ansermgw.angryword.activities.Play;
 import ch.ansermgw.angryword.exception.OutOfSceneryException;
 import ch.ansermgw.angryword.resource.VocabularyResource;
@@ -50,7 +51,7 @@ public class Scenery {
             SemanticWord semanticWord = vocabulary.pickAWord();
 
             try {
-                PhysicalObject element = elements.get(Play.rand.nextInt(elements.size()));
+                PhysicalObject element = elements.get(AngrywordMain.getInstance().getRand().nextInt(elements.size()));
 
                 Vector2 position = generateRandomItemPosition(
                         Math.round(element.getX()),
@@ -81,7 +82,7 @@ public class Scenery {
 
         while (position == null) {
             try {
-                int randomeX = startX + Play.rand.nextInt(Play.WORLD_WIDTH - startX - 100);
+                int randomeX = startX + AngrywordMain.getInstance().getRand().nextInt(Play.WORLD_WIDTH - startX - 100);
                 int startY = Play.FLOOR_HEIGHT;
 
                 position = generateRandomItemPosition(randomeX, startY);

@@ -8,9 +8,11 @@ import ch.ansermgw.angryword.exception.TranslationExistsException;
 
 public class SemanticWord {
     private final Map<Language, String> values;
+    private boolean isUsed;
 
     public SemanticWord() {
         this.values = new HashMap<>();
+        this.isUsed = false;
     }
 
     public void addTranslation(Language language, String value) throws TranslationExistsException {
@@ -29,5 +31,13 @@ public class SemanticWord {
         }
 
         return value;
+    }
+
+    public boolean isUsed() {
+        return isUsed;
+    }
+
+    public void setUsed(boolean used) {
+        isUsed = used;
     }
 }

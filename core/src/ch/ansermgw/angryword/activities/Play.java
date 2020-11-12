@@ -16,8 +16,6 @@ public class Play extends Activity {
     public static final int WORLD_HEIGHT = 900;
     public static final int FLOOR_HEIGHT = 150;
     public static final Vector2 BIRD_SPAWN = new Vector2(200, FLOOR_HEIGHT + 200);
-    public static Random rand;
-
 
     private Bird bird;
     private Wasp wasp;
@@ -31,7 +29,6 @@ public class Play extends Activity {
     public void create() {
         super.create();
 
-        rand = new Random(System.currentTimeMillis());
         vocabulary = VocabularyProvider.getInstance().getRandomVocabulary();
 
         scenery = new Scenery(vocabulary);

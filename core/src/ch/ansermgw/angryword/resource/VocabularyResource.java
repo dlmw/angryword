@@ -1,5 +1,6 @@
 package ch.ansermgw.angryword.resource;
 
+import ch.ansermgw.angryword.AngrywordMain;
 import ch.ansermgw.angryword.activities.Play;
 import ch.ansermgw.angryword.models.SemanticWord;
 
@@ -25,6 +26,10 @@ public class VocabularyResource {
     }
 
     public SemanticWord pickAWord() {
-        return words.get(Play.rand.nextInt(words.size()));
+        if (words.size() < 1) {
+            return null;
+        }
+
+        return words.get(AngrywordMain.getInstance().getRand().nextInt(words.size()));
     }
 }
